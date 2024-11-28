@@ -1,0 +1,6 @@
+package com.agence.annonce.dao.entities;
+
+
+public enum Category {
+   MAISON,APPARTEMENT,VILLA,STUDIO,TERRAIN,IMMEUBLE,LOCAL_COMMERCIAL,BUREAU,ENTREPOT,GARAGE,CABINET_MEDICAL;
+}
