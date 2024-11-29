@@ -3,6 +3,7 @@ package com.agence.annonce.dao.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -30,17 +31,22 @@ public class Annonce {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+  @Column(name = "description", nullable = false)
     private String description;
+    @Column(name = "surface" ,nullable = false)
     private Double surface;
+    @Column(name = "price" ,nullable = false)
     private Double price;
-
+   
+    @Column(name = "type" ,nullable = false)
     @Enumerated(EnumType.STRING)
     private Type type;
-
+    
+    @Column(name = "category" ,nullable = false)
    @Enumerated(EnumType.STRING)
     private Category category;
-
+   
+   
    @OneToOne
     private Address address;
 
