@@ -28,5 +28,5 @@ public class Photo {
     @ManyToOne
     @JoinColumn(name = "annonce_id")
     private Annonce annonce;
-   
+    
 }
