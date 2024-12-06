@@ -53,9 +53,10 @@ public class Annonce {
    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy ="annonce", cascade = CascadeType.ALL)
     private List <Photo>  photos= new ArrayList<Photo>();
-   
+    
+   @Column(name = "tel" ,nullable = false)
     private Integer tel;
 
     public Annonce(Long id, String description, Double surface, Double price, Type type, Category category, Address address, Integer tel) {
