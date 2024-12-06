@@ -59,7 +59,7 @@ public class Annonce {
     private Integer tel;
 
     public Annonce(Long id, String description, Double surface, Double price, Type type, Category category, Address address, Integer tel) {
-        this.id = id;
+        this.annonce_id = id;
         this.description = description;
         this.surface = surface;
         this.price = price;
