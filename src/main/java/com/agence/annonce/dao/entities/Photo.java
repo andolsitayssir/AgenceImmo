@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -21,10 +22,11 @@ import lombok.Setter;
 public class Photo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idPhoto;
-    @Column(name = "url")
+    private Long photo_id;
+    @Column(name = "photo_url")
     private String url;
     @ManyToOne
-    private Long idAnnonce;
-    
+    @JoinColumn(name = "annonce_id")
+    private Annonce annonce;
+   
 }

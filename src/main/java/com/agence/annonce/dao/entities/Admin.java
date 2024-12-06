@@ -18,7 +18,7 @@ import lombok.Setter;
 public class Admin {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAdmin;
+    private Long admin_id;
     @Column(name = "name",nullable = false)
     private String name;
     @Column(name = "email",nullable = false)  
