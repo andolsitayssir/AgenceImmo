@@ -33,8 +33,12 @@ public class Annonce {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long annonce_id;
-  @Column(name = "description", nullable = false)
-    private String description;
+    
+    @Column(name = "titre", nullable = false)
+    private String titre;
+    @Column(name = "description", nullable = false)
+     private String description; 
+   
     @Column(name = "surface" ,nullable = false)
     private Double surface;
     @Column(name = "price" ,nullable = false)
@@ -45,7 +49,7 @@ public class Annonce {
     private Type type;
     
     @Column(name = "category" ,nullable = false)
-   @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private Category category;
    
    
@@ -55,7 +59,7 @@ public class Annonce {
 
     @OneToMany(mappedBy ="annonce", cascade = CascadeType.ALL)
     private List <Photo>  photos= new ArrayList<Photo>();
-    
+
    @Column(name = "tel" ,nullable = false)
     private Integer tel;
 
