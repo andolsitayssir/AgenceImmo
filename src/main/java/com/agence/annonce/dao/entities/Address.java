@@ -23,9 +23,9 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long address_id; 
-    @Column(name = "city")
+    @Column(name = "Governorate")
     private String city;
-    @Column(name = "town")
+    @Column(name = "city")
     private String town;
     @Column(name = "street")
     private String street;

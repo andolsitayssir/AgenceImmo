@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>default layout</title>
+    <title>Default Layout</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootswatch/dist/sandstone/bootstrap.css}">
+    
 </head>
 <body>
-    <div th:replace="~{fragments/header::header(title=${title})}" ></div>
+    <div th:replace="~{fragments/header::header(title=${title})}"></div>
     <div class="container" th:insert="~{::content}" ></div>
     <div th:replace="~{fragments/footer::footer}" ></div>
 </body>
