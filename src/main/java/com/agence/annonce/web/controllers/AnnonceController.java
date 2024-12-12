@@ -19,5 +19,10 @@ public class AnnonceController {
         model.addAttribute("annonceForm", new annonceForm());
         return "edit-property";
     }
+    @RequestMapping("/property-list")
+    public String showPropertyList(Model model) {
+        model.addAttribute("annonceForm", new annonceForm());
+        return "property-list";
+    }
     
 }
