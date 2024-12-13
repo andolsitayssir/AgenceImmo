@@ -62,10 +62,10 @@ public class AnnonceController {
 
             this.annonceService
                 .addAnnonce(new Annonce(null, annonceForm.getTitre(),annonceForm.getDescription(),annonceForm.getSurface(),annonceForm.getPrice(),annonceForm.getType(),annonceForm.getCategory(),annonceForm.getTel()));
-        } else {
+        }//  else {
 
-            .addAnnonce(new Annonce(null, annonceForm.getTitre(),annonceForm.getDescription(),annonceForm.getSurface(),annonceForm.getPrice(),annonceForm.getType(),annonceForm.getCategory(),annonceForm.getTel()));
-        }
+        //     .addAnnonce(new Annonce(null, annonceForm.getTitre(),annonceForm.getDescription(),annonceForm.getSurface(),annonceForm.getPrice(),annonceForm.getType(),annonceForm.getCategory(),annonceForm.getTel()));
+        // }
         
     }
 
