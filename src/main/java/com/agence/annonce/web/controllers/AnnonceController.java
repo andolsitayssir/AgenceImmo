@@ -77,6 +77,11 @@ public class AnnonceController {
         return "edit-property";
     }
 
+    @RequestMapping("/property-list")
+    public String showPropertyList(Model model) {
+        model.addAttribute("annonceForm", new annonceForm());
+        return "property-list";
+    }
     
     
 
