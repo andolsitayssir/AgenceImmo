@@ -20,7 +20,7 @@ import com.agence.annonce.web.models.annonceForm;
 
 import jakarta.validation.Valid;
 
-import com.agence.annonce.business.services.annonceService;
+import com.agence.annonce.business.services.AnnonceService;
 
 @Controller
 @RequestMapping("/annonces")
@@ -31,8 +31,8 @@ public class AnnonceController {
     public static String uploadDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images";
 
 
-    private final annonceService annonceService;
-    public AnnonceController( annonceService annonceService){
+    private final AnnonceService annonceService;
+    public AnnonceController( AnnonceService annonceService){
         this.annonceService=annonceService;
     }
 
@@ -43,7 +43,7 @@ public class AnnonceController {
         return "add-property";
     }
 
-    @RequestMapping(path="/create-property", method= RequestMethod.POST)
+     @RequestMapping(path="/create-property", method= RequestMethod.POST)
     public String addProperty(@Valid @ModelAttribute annonceForm annonceForm, BindingResult bindingResult,Model model,@RequestParam MultipartFile file){
             if (bindingResult.hasErrors()) {
             model.addAttribute("error", "Invalid input");
@@ -60,14 +60,15 @@ public class AnnonceController {
                 e.printStackTrace();
             }
 
-            this.annonceService
+           this.annonceService
                 .addAnnonce(new Annonce(null, annonceForm.getTitre(),annonceForm.getDescription(),annonceForm.getSurface(),annonceForm.getPrice(),annonceForm.getType(),annonceForm.getCategory(),annonceForm.getTel()));
-        }//  else {
+        }
+        //  else {
 
         //     .addAnnonce(new Annonce(null, annonceForm.getTitre(),annonceForm.getDescription(),annonceForm.getSurface(),annonceForm.getPrice(),annonceForm.getType(),annonceForm.getCategory(),annonceForm.getTel()));
-        // }
+         }
         
-    }
+    
 
 
 
