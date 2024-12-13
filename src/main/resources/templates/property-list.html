@@ -18,10 +18,18 @@
       <th scope="col">Governorate</th>
       <th scope="col">Actions</th>
     </tr>
-
   </thead>
+  <tr  th:each="property:${annonces}">
+    <td th:text="${property.title}"></td>
+    <td th:text="${property.type}"></td>
+    <td th:text="${property.category}"></td>
+    <td th:text="${property.price}"></td>
+    <td th:text="${property.governorate}"></td>
+    </tr>
   <tr>
-    
+    <td th:if="${#lists.isEmpty(annonces)}" colspan="6">
+      <p>No products available. Please add a new product.</p>
+   </td>
   </tr>
 <table>
     </div>  
