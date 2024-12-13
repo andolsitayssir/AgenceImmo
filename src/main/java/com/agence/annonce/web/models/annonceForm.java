@@ -25,6 +25,8 @@ private Category category;
 @NotBlank
 private String description;
 @NotNull
+private Integer tel;
+@NotNull
 private Double surface;
 @NotNull
 @Min(value=10)
@@ -35,6 +37,7 @@ private String Governorate;
 private String city;
 @NotBlank
 private String street;
+
 
 
 
