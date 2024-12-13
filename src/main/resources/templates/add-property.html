@@ -9,7 +9,7 @@
 <body th:action="@{/create-property}" th:replace="layout/default-layout::body(title='Add Property')" >
    <div  th:fragment="content">
   <form action="" th:object="${annonceForm}" method="POST" enctype="multipart/form-data">
-            
+     <h1 class="form-group   fw-bold mx-auto" style="text-align: center;">Add a New Property</h1>       
     <div  class="form-group mx-auto   mt-3 w-50" >
         <label class="form-label      fw-bold" for="title">Enter a title *</label>
         <input type="text" class="form-control"      placeholder="Title" id="title">
@@ -40,7 +40,18 @@
     <label for="description" class="form-label   fw-bold">More details *</label>
     <textarea class="form-control "      id="description" rows="3" cols="1" ></textarea>
   </div>
-      <p class="form-group mx-auto mt-3 w-50  fw-bold">Enter the price *</p>
+  <p class="form-group mx-auto mt-3 w-50  fw-bold">Enter your Phone Number *</p>
+  <div class="form-group input-group mt-3 mx-auto w-50">
+    <span class="input-group-text">+216</span>
+    <input type="number" class="form-control" > 
+  </div>
+  <p class="form-group mx-auto mt-3 w-50  fw-bold">Enter the Surface *</p>
+  <div class="form-group input-group mt-3 mx-auto w-50">
+    <span class="input-group-text">m²</span>
+    <input type="number" class="form-control" >
+   
+  </div>
+      <p class="form-group mx-auto mt-3 w-50  fw-bold">Enter the Price *</p>
       <div class="form-group input-group mt-3 mx-auto w-50">
         <span class="input-group-text">TND</span>
         <input type="number" class="form-control"     aria-label="Amount (to the nearest dollar)">
