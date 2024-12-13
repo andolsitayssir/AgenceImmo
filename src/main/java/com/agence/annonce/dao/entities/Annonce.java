@@ -56,21 +56,23 @@ public class Annonce {
    @OneToOne
    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
+   
+    @Column(name = "tel" ,nullable = false)
+    private Integer tel;
 
     @OneToMany(mappedBy ="annonce", cascade = CascadeType.ALL)
     private List <Photo>  photos= new ArrayList<Photo>();
 
-   @Column(name = "tel" ,nullable = false)
-    private Integer tel;
 
-    public Annonce(Long id, String description, Double surface, Double price, Type type, Category category, Address address, Integer tel) {
+
+    public Annonce(Long id, String titre, String description, Double surface, Double price, Type type, Category category, Integer tel) {
         this.annonce_id = id;
+        this.titre = titre;
         this.description = description;
         this.surface = surface;
         this.price = price;
         this.type = type;
         this.category = category;
-        this.address = address;
         this.tel = tel;
     }
 }
