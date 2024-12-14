@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.agence.annonce.dao.entities.Category;
 import com.agence.annonce.dao.entities.Type;
 
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,7 +36,7 @@ public class annonceForm {
     private String description;
 
     @NotNull
-    @Size(min=8, max=8, message="Phone number must be 8 digits")
+   @Digits(integer = 8, fraction = 0, message = "Phone number must be exactly 8 digits")
     private Integer tel;
 
     @NotNull
@@ -54,5 +55,5 @@ public class annonceForm {
     @NotBlank(message="Street is required")
     private String street;
 
-    private List<MultipartFile> images;
+    private List<MultipartFile> photos;
 }
