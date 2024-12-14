@@ -43,7 +43,7 @@ public class AnnonceController {
         return "add-property";
     }
 
-     @RequestMapping(path="/create-property", method= RequestMethod.POST)
+   /*  @RequestMapping(path="/create-property", method= RequestMethod.POST)
     public String addProperty(@Valid @ModelAttribute annonceForm annonceForm, BindingResult bindingResult,Model model,@RequestParam MultipartFile file){
             if (bindingResult.hasErrors()) {
             model.addAttribute("error", "Invalid input");
@@ -66,7 +66,7 @@ public class AnnonceController {
         //  else {
 
         //     .addAnnonce(new Annonce(null, annonceForm.getTitre(),annonceForm.getDescription(),annonceForm.getSurface(),annonceForm.getPrice(),annonceForm.getType(),annonceForm.getCategory(),annonceForm.getTel()));
-         }
+         }*/
         
     
 

@@ -5,12 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import com.agence.annonce.business.services.AnnonceService;
 import com.agence.annonce.dao.entities.Annonce;
 import com.agence.annonce.dao.entities.Category;
 import com.agence.annonce.dao.entities.Type;
 import com.agence.annonce.dao.repositories.AnnonceRepository;
+
 
 public class AnnonceServiceImpl implements AnnonceService {
     private final AnnonceRepository annonceRepository;
