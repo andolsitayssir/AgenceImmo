@@ -17,7 +17,6 @@
     </div>
       <p class="form-group   fw-bold mx-auto mt-3 w-50">Select a Type *</p>
       <div class="form-check form-group mx-auto mt-3 w-50">
-
         <input class="form-check-input" type="radio" name="type" id="sale" value="sale" checked="" th:field="*{type}">
         <label class="form-check-label" for="sale">
             Sale
@@ -46,34 +45,34 @@
   <div class="form-group input-group mt-3 mx-auto w-50">
     <span class="input-group-text">+216</span>
     <input type="number" class="form-control" th:classappend="${#fields.hasErrors('tel')}?is-invalid"  th:field="*{tel}">
-    <span th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}" class="invalid-feedback">Age Error</span> 
+    <span th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}" class="invalid-feedback">phone number error</span> 
   </div>
   <p class="form-group mx-auto mt-3 w-50  fw-bold">Enter the Surface *</p>
   <div class="form-group input-group mt-3 mx-auto w-50">
     <span class="input-group-text">m²</span>
     <input type="number" class="form-control" th:classappend="${#fields.hasErrors('surface')}?is-invalid"  th:field="*{surface}">
-    <span th:if="${#fields.hasErrors('surface')}" th:errors="*{surface}" class="invalid-feedback">Age Error</span>
+    <span th:if="${#fields.hasErrors('surface')}" th:errors="*{surface}" class="invalid-feedback">surface error</span>
   </div>
       <p class="form-group mx-auto mt-3 w-50  fw-bold">Enter the Price *</p>
       <div class="form-group input-group mt-3 mx-auto w-50">
         <span class="input-group-text">TND</span>
         <input type="number" class="form-control"  id="price"   aria-label="Amount (to the nearest dollar)" th:classappend="${#fields.hasErrors('price')}?is-invalid"  th:field="*{price}">
-        <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="invalid-feedback">Age Error</span>
+        <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="invalid-feedback">price Error</span>
       </div>
       <div  class="form-group mx-auto   mt-3 w-50" >
         <label class="form-label fw-bold" for="title">Governorate *</label>
         <input type="text" class="form-control "    placeholder="Governorate" id="Governorate" th:classappend="${#fields.hasErrors('governorate')}?is-invalid"  th:field="*{governorate}">
-        <span th:if="${#fields.hasErrors('governorate')}" th:errors="*{governorate}" class="invalid-feedback">Age Error</span>
+        <span th:if="${#fields.hasErrors('governorate')}" th:errors="*{governorate}" class="invalid-feedback">governorate Error</span>
     </div>
     <div  class="form-group mx-auto mt-3 w-50" >
         <label class="form-label  fw-bold" for="title">City *</label>
         <input type="text" class="form-control " 02 placeholder="City" id="city"th:classappend="${#fields.hasErrors('city')}?is-invalid"  th:field="*{city}">
-        <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="invalid-feedback">Age Error</span>
+        <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="invalid-feedback">city Error</span>
     </div>
     <div  class="form-group mx-auto   mt-3 w-50" >
         <label class="form-label  fw-bold" for="title">Street *</label>
         <input type="text" class="form-control "  placeholder="Street" id="street" th:classappend="${#fields.hasErrors('street')}?is-invalid"  th:field="*{street}">
-        <span th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="invalid-feedback">Age Error</span>
+        <span th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="invalid-feedback">street Error</span>
       </div>
     <div class="form-group mx-auto   mt-3 w-50">
       <label for="formFile" class="form-label fw-bold">Upload Photos of your Property *</label>

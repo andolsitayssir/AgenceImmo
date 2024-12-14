@@ -62,9 +62,10 @@ public class AnnonceController  {
 
 
      @RequestMapping(path="/create-property", method= RequestMethod.POST)
-    public String addProperty(@Valid @ModelAttribute annonceForm annonceForm, BindingResult bindingResult,Model model,@RequestParam MultipartFile photos){
+    public String addProperty(@Valid @ModelAttribute annonceForm annonceForm, BindingResult bindingResult,Model model,@RequestParam("photos") MultipartFile[] photos){
         Address address = new Address(annonceForm.getGovernorate(),annonceForm.getCity(),annonceForm.getStreet());
         this.addresseService.addAddress(address);   
+
 
         List<Photo> photosList = new ArrayList<Photo>();
         if (bindingResult.hasErrors()) {
@@ -72,34 +73,35 @@ public class AnnonceController  {
             model.addAttribute("categories", Category.values());
             return "add-property";
         }
-        if (!photos.isEmpty()) {
-            StringBuilder fileName = new StringBuilder();
-            for (Photo photo : photos) {
-                
-           
-            fileName.append(photo.getOriginalFilename());
-            Path newFilePath = Paths.get(uploadDirectory, fileName.toString());
 
-            try {
-                Files.write(newFilePath, photos.getBytes());
-            } catch (Exception e) {
-                e.printStackTrace();
+
+           Annonce annonce =new Annonce(null, annonceForm.getTitre(), annonceForm.getDescription(), annonceForm.getSurface(), annonceForm.getPrice(), annonceForm.getType(), annonceForm.getCategory(), address, annonceForm.getTel(), null);
+            if (photos.length > 0) {
+            
+                for (MultipartFile photo : photos) {
+                    
+                StringBuilder fileName = new StringBuilder();
+                fileName.append(photo.getOriginalFilename());
+                Path newFilePath = Paths.get(uploadDirectory, fileName.toString());
+                try {
+                    Files.write(newFilePath, photo.getBytes());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                photosList.add(new Photo(null, fileName.toString(), annonce ));
+                
+                
             }
-            photosList.add(new Photo(null, fileName.toString()));
-        }
-            this.annonceService.
-            addAnnonce(new Annonce(null, annonceForm.getTitre(), annonceForm.getDescription(), annonceForm.getSurface(), annonceForm.getPrice(), annonceForm.getType(), annonceForm.getCategory(), address, annonceForm.getTel(), photosList));
+            annonce.setPhotos(photosList);
+             this.annonceService.addAnnonce(annonce);
         }     
         
-        else {
-            this.annonceService
-            .addAnnonce(new Annonce(null, annonceForm.getTitre(), annonceForm.getDescription(), annonceForm.getSurface(), annonceForm.getPrice(), annonceForm.getType(), annonceForm.getCategory(), address, annonceForm.getTel(), null));
-        }
+
          return "redirect:/property-list";
-    }
+    
         
     
-
+    }
 
 
     @RequestMapping("/edit-property")
