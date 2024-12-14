@@ -58,13 +58,14 @@ public class AnnonceController  {
         model.addAttribute("categories", Category.values());
         return "add-property";
     }
-    @Autowired
-private AddresseRepository addressRepository;
+
+
 
      @RequestMapping(path="/create-property", method= RequestMethod.POST)
     public String addProperty(@Valid @ModelAttribute annonceForm annonceForm, BindingResult bindingResult,Model model,@RequestParam MultipartFile photos){
-        Address address = new Address(annonceForm.getGovernorate(),annonceForm.getCity(),annonceForm.getStreet());   
-        addressRepository.save(address);
+        Address address = new Address(annonceForm.getGovernorate(),annonceForm.getCity(),annonceForm.getStreet());
+        this.addresseService.addAddress(address);   
+
         List<Photo> photosList = new ArrayList<Photo>();
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", "Invalid input");
@@ -73,7 +74,10 @@ private AddresseRepository addressRepository;
         }
         if (!photos.isEmpty()) {
             StringBuilder fileName = new StringBuilder();
-            fileName.append(photos.getOriginalFilename());
+            for (Photo photo : photos) {
+                
+           
+            fileName.append(photo.getOriginalFilename());
             Path newFilePath = Paths.get(uploadDirectory, fileName.toString());
 
             try {
@@ -82,9 +86,11 @@ private AddresseRepository addressRepository;
                 e.printStackTrace();
             }
             photosList.add(new Photo(null, fileName.toString()));
+        }
             this.annonceService.
             addAnnonce(new Annonce(null, annonceForm.getTitre(), annonceForm.getDescription(), annonceForm.getSurface(), annonceForm.getPrice(), annonceForm.getType(), annonceForm.getCategory(), address, annonceForm.getTel(), photosList));
-        }      
+        }     
+        
         else {
             this.annonceService
             .addAnnonce(new Annonce(null, annonceForm.getTitre(), annonceForm.getDescription(), annonceForm.getSurface(), annonceForm.getPrice(), annonceForm.getType(), annonceForm.getCategory(), address, annonceForm.getTel(), null));

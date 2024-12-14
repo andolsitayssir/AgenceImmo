@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.agence.annonce.business.services.AddresseService;
-
 import com.agence.annonce.dao.entities.Address;
 import com.agence.annonce.dao.repositories.AddresseRepository;
 
@@ -26,5 +25,11 @@ public class AddresseServiceImpl implements AddresseService {
     @Override
     public Address getAddressbyId(Long id) {
         return this.addresseRepository.findById(id).get();
+    }
+
+
+    @Override
+    public Address addAddress(Address address) {
+        return this.addresseRepository.save(address);
     }
 }
