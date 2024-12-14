@@ -14,19 +14,20 @@ import com.agence.annonce.dao.entities.Annonce;
 import com.agence.annonce.dao.entities.Category;
 import com.agence.annonce.dao.entities.Type;
 
-import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-@RequestMapping("/annonces")
+@RequestMapping("/home")
 public class LandingPageController {
-    private static List<Annonce> annonces = new ArrayList<Annonce>();
-    private static Long idCount =0L;
+   
+   
+    private final PhotoService photoService;
+    private final AddresseService addresseService;
 
     private final AnnonceService annonceService;
-    private final AddresseService addresseService;
-    private final PhotoService photoService;
+
       public LandingPageController( AnnonceService annonceService,AddresseService addresseService, PhotoService photoService){
 
         this.annonceService=annonceService;
@@ -36,10 +37,23 @@ public class LandingPageController {
     @RequestMapping("/landing-page")
     public String getAllproduct(Model model) {
         List<Annonce> annonces = annonceService.getAllAnnonce();
-       
-
         model.addAttribute("annonces", annonces);
-        
+        model.addAttribute("categories", Category.values());
+        model.addAttribute("types", Type.values());
+        return "landing-page";
+    }
+    @RequestMapping("/filter")
+    public String filterAnnonces(Model model, @RequestParam String type, @RequestParam String category) {
+        List<Annonce> annonces = annonceService.getAllAnnonce();
+        List<Annonce> filteredAnnonces = new ArrayList<Annonce>();
+        for (Annonce annonce : annonces) {
+            if (annonce.getType().toString().equals(type) && annonce.getCategory().toString().equals(category)) {
+                filteredAnnonces.add(annonce);
+            }
+        }
+        model.addAttribute("annonces", filteredAnnonces);
+        model.addAttribute("categories", Category.values());
+        model.addAttribute("types", Type.values());
         return "landing-page";
     }
     

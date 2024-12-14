@@ -13,6 +13,5 @@ public interface AnnonceRepository extends JpaRepository<Annonce,Long> {
     List<Annonce> findByTitre(String titre);
     List<Annonce> findByType(Type type);
     List<Annonce> findByCategory(Category category);
-    List<Annonce> findByTypeAndCategory(Type type,Category category);
       
 }
