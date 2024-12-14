@@ -1,10 +1,8 @@
 package com.agence.annonce.dao.entities;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -31,4 +29,10 @@ public class Address {
     private String street;
     @OneToOne(mappedBy="address")
     private Annonce annonce;
+    public Address(String city, String town, String street) {
+        this.city = city;
+        this.town = town;
+        this.street = street;
+    }
+    
 }

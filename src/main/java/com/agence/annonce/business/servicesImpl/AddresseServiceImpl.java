@@ -2,11 +2,14 @@ package com.agence.annonce.business.servicesImpl;
 
 import java.util.List;
 
-import com.agence.annonce.business.services.addresseService;
+import org.springframework.stereotype.Service;
+
+import com.agence.annonce.business.services.AddresseService;
 import com.agence.annonce.dao.entities.Address;
 import com.agence.annonce.dao.repositories.AddresseRepository;
 
-public class AddresseServiceImpl implements addresseService {
+@Service
+public class AddresseServiceImpl implements AddresseService {
 
     private final AddresseRepository addresseRepository;
     public AddresseServiceImpl(AddresseRepository addresseRepository){

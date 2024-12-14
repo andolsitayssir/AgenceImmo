@@ -34,21 +34,21 @@ public class Annonce {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long annonce_id;
     
-    @Column(name = "titre", nullable = false)
+    @Column(name = "titre" )//nullable = false//
     private String titre;
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
      private String description; 
    
-    @Column(name = "surface" ,nullable = false)
+    @Column(name = "surface")
     private Double surface;
-    @Column(name = "price" ,nullable = false)
+    @Column(name = "price" )
     private Double price;
    
-    @Column(name = "type" ,nullable = false)
+    @Column(name = "type" )
     @Enumerated(EnumType.STRING)
     private Type type;
     
-    @Column(name = "category" ,nullable = false)
+    @Column(name = "category")
     @Enumerated(EnumType.STRING)
     private Category category;
    
@@ -57,11 +57,26 @@ public class Annonce {
    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
    
-    @Column(name = "tel" ,nullable = false)
+    @Column(name = "tel" )
     private Integer tel;
 
     @OneToMany(mappedBy ="annonce", cascade = CascadeType.ALL)
     private List <Photo>  photos= new ArrayList<Photo>();
+
+
+
+    public Annonce(Long annonce_id, String titre, String description, Double surface, Double price, Type type,
+            Category category, Address address, Integer tel) {
+        this.annonce_id = annonce_id;
+        this.titre = titre;
+        this.description = description;
+        this.surface = surface;
+        this.price = price;
+        this.type = type;
+        this.category = category;
+        this.address = address;
+        this.tel = tel;
+    }
 
 
 
@@ -75,4 +90,9 @@ public class Annonce {
         this.category = category;
         this.tel = tel;
     }
+    
+
+
+
+    
 }
