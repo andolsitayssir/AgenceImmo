@@ -1,12 +1,16 @@
 package com.agence.annonce.web.models;
 
+import java.util.List;
 import java.util.Locale.Category;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.agence.annonce.dao.entities.Type;
-import com.agence.annonce.dao.entities.Address;
+
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,15 +20,16 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class annonceForm {
-@NotBlank(message = "titre est obligatoir")
-private String titre;
-@NotBlank(message="veuillez choisir un type")
+@NotBlank()
+private String title;
+@NotBlank()
 private Type type;
-@NotBlank(message="veuillez choisir une")
+@NotBlank()
 private Category category;
-@NotBlank
+@NotBlank()
 private String description;
 @NotNull
+@Size(min=8,max=8,message="phone number must be 8 digits")
 private Integer tel;
 @NotNull
 private Double surface;
@@ -37,8 +42,6 @@ private String governorate;
 private String city;
 @NotNull
 private String street;
-
-
-
+private List<MultipartFile> images;
     
 }
