@@ -25,7 +25,7 @@ public class Photo {
     private Long photo_id;
     @Column(name = "photo_url")
     private String url;
-
+    
     @ManyToOne
     @JoinColumn(name = "annonce_id", nullable = false)
     private Annonce annonce;
