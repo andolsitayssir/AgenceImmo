@@ -57,13 +57,12 @@ public class Annonce {
     @Column(name = "price" )
     private Double price;
 
-   @OneToOne
-   @JoinColumn(name = "address_id", referencedColumnName = "address_id")
+    @OneToOne
+    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
    
     @OneToMany(mappedBy ="annonce", cascade = CascadeType.ALL, orphanRemoval = true)
     private List <Photo>  photos= new ArrayList<Photo>();
-
 
     public Annonce(Long annonce_id, String titre, String description, Double surface, Double price, Type type,
             Category category, Address address, Integer tel, List<Photo> photos) {

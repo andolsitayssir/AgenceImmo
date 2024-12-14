@@ -5,32 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link th:replace="layout/default-layout::link">
     <title>All Properties</title>
+    
 </head>
-<body th:replace="layout/default-layout::body(title='People List')">
-    <div th:fragment="content">
-        <table class="table table-hover mt-5">
+<body h:action="@{/annonces/property-list}" th:replace="layout/default-layout::body(title='Property List')">
+     <div th:fragment="content">
+
+     <div class="row mt-5">
+        <div class="col-8">
+          <a class="btn btn-primary" th:href="@{/annonces/create-property}">Add a Property</a>
+        </div>
+    </div>
+    <div class="col-4">
+      <p><strong>Sort by Age:</strong></p>
+      <form th:action="@{/annonces/filter}" method="get" id="filterForm">
+        <label><input type="radio" name="sortByAge" value="asc" th:checked="${sortByAge=='asc'}"
+            onchange="submitForm()"> Ascending</label>
+        <label><input type="radio" name="sortByAge" value="desc" th:checked="${sortByAge=='desc'}"
+            onchange="submitForm()"> Descending</label>
+      </form>
+
+    </div>
+        <table class="table table-hover mt-5 mx-auto">
   <thead>
     <tr class="table-primary ">
       <th scope="col">Title</th>
       <th scope="col">Type</th>
       <th scope="col">Category</th>
       <th scope="col">Price</th>
+      <th scope="col">Surface</th>
       <th scope="col">Governorate</th>
       <th scope="col">Actions</th>
     </tr>
   </thead>
+  <tr>
+    <td th:if="${#lists.isEmpty(annonces)}" colspan="6">
+      <p>No property available. Please add a new property.</p>
+   </td>
+  </tr>
   <tr  th:each="property:${annonces}">
-    <td th:text="${property.title}"></td>
+    <td th:text="${property.titre}"></td>
     <td th:text="${property.type}"></td>
     <td th:text="${property.category}"></td>
     <td th:text="${property.price}"></td>
-    <td th:text="${property.governorate}"></td>
+    <td th:text="${property.surface}"></td>
+    <td th:text="${property.address.governorate}"></td>
+    <td>
+        <a  class="btn btn-secondary">Edit</a>
+        <a  class="btn btn-danger">Delete</a>
+    </td>
     </tr>
-  <tr>
-    <td th:if="${#lists.isEmpty(annonces)}" colspan="6">
-      <p>No products available. Please add a new product.</p>
-   </td>
-  </tr>
+
 <table>
     </div>  
 </body>

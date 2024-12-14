@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,10 +50,16 @@ public class AnnonceController  {
         this.photoService=photoService;
     }
        
-    
+    @RequestMapping("/property-list")
+    public String getAllproduct(Model model) {
+        List<Annonce> annonces = annonceService.getAllAnnonce();
+        model.addAttribute("annonces", annonces);
+        
+        return "property-list";
+    }
 
 
-    @RequestMapping("/create-property")
+    @GetMapping("/create-property")
     public String showAddProperty(Model model) {
         model.addAttribute("annonceForm", new annonceForm());
         model.addAttribute("categories", Category.values());
@@ -109,12 +116,8 @@ public class AnnonceController  {
         model.addAttribute("annonceForm", new annonceForm());
         return "edit-property";
     }
+    
 
-    @RequestMapping("/property-list")
-    public String showPropertyList(Model model) {
-        model.addAttribute("annonceForm", new annonceForm());
-        return "property-list";
-    }
     
     
 

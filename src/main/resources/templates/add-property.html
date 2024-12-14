@@ -8,6 +8,11 @@
 </head>
 <body th:action="@{/annonces/create-property}" th:replace="layout/default-layout::body(title='Add Property')" >
    <div  th:fragment="content">
+    <div class="row mt-5">
+      <div class="col-8">
+        <a class="btn btn-primary" th:href="@{/annonces/property-list}">Return to the List</a>
+      </div>
+  </div>
     <form th:action="@{/annonces/create-property}" th:object="${annonceForm}" method="POST" enctype="multipart/form-data">
      <h1 class="form-group   fw-bold mx-auto" style="text-align: center;">Add a New Property</h1>       
     <div  class="form-group mx-auto   mt-3 w-50" >
