@@ -28,5 +28,10 @@ public class Photo {
     @ManyToOne
     @JoinColumn(name = "annonce_id")
     private Annonce annonce;
+
+    public Photo(Long photo_id, String url) {
+        this.photo_id = photo_id;
+        this.url = url;
+    }
     
 }

@@ -18,9 +18,9 @@ import lombok.Setter;
 public class annonceForm {
 @NotBlank(message = "titre est obligatoir")
 private String titre;
-@NotBlank(message="veuillez choisir un type")
+// @NotBlank(message="veuillez choisir un type")
 private Type type;
-@NotBlank(message="veuillez choisir une")
+// @NotBlank(message="veuillez choisir une")
 private Category category;
 @NotBlank
 private String description;
@@ -37,6 +37,7 @@ private String Governorate;
 private String city;
 @NotBlank
 private String street;
+private String  url;
 
 
 
