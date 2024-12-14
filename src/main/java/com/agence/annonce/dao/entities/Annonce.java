@@ -61,7 +61,7 @@ public class Annonce {
    @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
    
-    @OneToMany(mappedBy ="annonce", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy ="annonce", cascade = CascadeType.ALL, orphanRemoval = true)
     private List <Photo>  photos= new ArrayList<Photo>();
 
 

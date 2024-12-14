@@ -7,4 +7,5 @@ import com.agence.annonce.dao.entities.Address;
 public interface AddresseService {
     List<Address> getAllAddress();
     Address getAddressbyId(Long id);
+    
 }

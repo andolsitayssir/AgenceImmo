@@ -59,10 +59,10 @@ public class AnnonceController  {
         return "add-property";
     }
     @Autowired
-private AddresseRepository addressRepository;
+    private AddresseRepository addressRepository;
 
      @RequestMapping(path="/create-property", method= RequestMethod.POST)
-    public String addProperty(@Valid @ModelAttribute annonceForm annonceForm, BindingResult bindingResult,Model model,@RequestParam MultipartFile photos){
+    public String addProperty(@Valid @ModelAttribute annonceForm annonceForm, BindingResult bindingResult,Model model,@RequestParam("photos") MultipartFile[] photos){
         Address address = new Address(annonceForm.getGovernorate(),annonceForm.getCity(),annonceForm.getStreet());   
         addressRepository.save(address);
         List<Photo> photosList = new ArrayList<Photo>();
@@ -71,24 +71,36 @@ private AddresseRepository addressRepository;
             model.addAttribute("categories", Category.values());
             return "add-property";
         }
-        if (!photos.isEmpty()) {
-            StringBuilder fileName = new StringBuilder();
-            fileName.append(photos.getOriginalFilename());
-            Path newFilePath = Paths.get(uploadDirectory, fileName.toString());
 
-            try {
-                Files.write(newFilePath, photos.getBytes());
-            } catch (Exception e) {
-                e.printStackTrace();
+       
+        Annonce annonce = new Annonce();
+        annonce.setTitre(annonceForm.getTitre());
+        annonce.setDescription(annonceForm.getDescription());
+        annonce.setSurface(annonceForm.getSurface());
+        annonce.setPrice(annonceForm.getPrice());
+        annonce.setType(annonceForm.getType());
+        annonce.setCategory(annonceForm.getCategory());
+        annonce.setTel(annonceForm.getTel());
+        annonce.setAddress(address);
+        for (MultipartFile photo : photos) {
+            if (!photo.isEmpty()) {
+                String fileName = photo.getOriginalFilename();
+                String filePath = uploadDirectory + "/" + fileName;
+                try {
+                    Path path = Paths.get(filePath);
+                    Files.write(path, photo.getBytes());
+                    Photo photoEntity = new Photo();
+                    photoEntity.setUrl(fileName);
+                    photoEntity.setAnnonce(annonce); 
+                    photosList.add(photoEntity);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            photosList.add(new Photo(null, fileName.toString()));
-            this.annonceService.
-            addAnnonce(new Annonce(null, annonceForm.getTitre(), annonceForm.getDescription(), annonceForm.getSurface(), annonceForm.getPrice(), annonceForm.getType(), annonceForm.getCategory(), address, annonceForm.getTel(), photosList));
-        }      
-        else {
-            this.annonceService
-            .addAnnonce(new Annonce(null, annonceForm.getTitre(), annonceForm.getDescription(), annonceForm.getSurface(), annonceForm.getPrice(), annonceForm.getType(), annonceForm.getCategory(), address, annonceForm.getTel(), null));
         }
+        annonce.setPhotos(photosList);
+        annonceService.addAnnonce(annonce);
+
          return "redirect:/property-list";
     }
         
