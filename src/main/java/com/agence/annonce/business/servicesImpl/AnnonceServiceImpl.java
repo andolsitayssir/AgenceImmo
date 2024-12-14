@@ -13,7 +13,7 @@ import com.agence.annonce.dao.entities.Category;
 import com.agence.annonce.dao.entities.Type;
 import com.agence.annonce.dao.repositories.AnnonceRepository;
 
-
+@Service
 public class AnnonceServiceImpl implements AnnonceService {
     private final AnnonceRepository annonceRepository;
     public AnnonceServiceImpl(AnnonceRepository annonceRepository){

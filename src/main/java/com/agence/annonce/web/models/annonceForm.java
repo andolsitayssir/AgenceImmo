@@ -1,10 +1,10 @@
 package com.agence.annonce.web.models;
 
 import java.util.List;
-import java.util.Locale.Category;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.agence.annonce.dao.entities.Category;
 import com.agence.annonce.dao.entities.Type;
 
 import jakarta.validation.constraints.Min;
@@ -15,33 +15,44 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @AllArgsConstructor
 @Getter
 @Setter
 @NoArgsConstructor
 public class annonceForm {
-@NotBlank()
-private String title;
-@NotBlank()
-private Type type;
-@NotBlank()
-private Category category;
-@NotBlank()
-private String description;
-@NotNull
-@Size(min=8,max=8,message="phone number must be 8 digits")
-private Integer tel;
-@NotNull
-private Double surface;
-@NotNull
-@Min(value=10)
-private Double price;
-@NotNull
-private String governorate;
-@NotNull
-private String city;
-@NotNull
-private String street;
-private List<MultipartFile> images;
-    
+
+    @NotBlank(message="Title is required")
+    private String titre;
+
+    @NotNull(message="Please choose a type")
+    private Type type;
+
+    @NotNull(message="Please choose a category")
+    private Category category;
+
+    @NotBlank(message="Description is required")
+    private String description;
+
+    @NotNull
+    @Size(min=8, max=8, message="Phone number must be 8 digits")
+    private Integer tel;
+
+    @NotNull
+    private Double surface;
+
+    @NotNull
+    @Min(value=10, message="Price must be at least 10")
+    private Double price;
+
+    @NotBlank(message="Governorate is required")
+    private String governorate;
+
+    @NotBlank(message="City is required")
+    private String city;
+
+    @NotBlank(message="Street is required")
+    private String street;
+
+    private List<MultipartFile> images;
 }
