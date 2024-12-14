@@ -2,6 +2,8 @@ package com.agence.annonce.business.servicesImpl;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.agence.annonce.business.services.addresseService;
 import com.agence.annonce.dao.entities.Address;
 import com.agence.annonce.dao.repositories.AddresseRepository;

@@ -23,10 +23,10 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long address_id; 
-    @Column(name = "Governorate")
-    private String city;
+    @Column(name = "governorate")
+    private String governorate;
     @Column(name = "city")
-    private String town;
+    private String city;
     @Column(name = "street")
     private String street;
     @OneToOne(mappedBy="address")

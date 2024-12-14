@@ -31,8 +31,12 @@ private Double surface;
 @NotNull
 @Min(value=10)
 private Double price;
-
-private Address adress;
+@NotNull
+private String governorate;
+@NotNull
+private String city;
+@NotNull
+private String street;
 
 
 

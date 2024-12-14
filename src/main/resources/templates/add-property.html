@@ -71,8 +71,9 @@
     </div>
     <div class="form-group mx-auto   mt-3 w-50">
       <label for="formFile" class="form-label fw-bold">Upload Photos of your Property *</label>
-      <input class="form-control" type="file" id="formFile">
+      <input class="form-control" type="file" id="formFile" multiple onchange="previewImages()">
     </div>
+    <div class="form-group mx-auto mt-3 w-50" id="imagePreview"></div>
     <div class="form-group mx-auto mt-3 w-50">
     <button type="submit" class="btn btn-primary">Submit</button>
   </div>
