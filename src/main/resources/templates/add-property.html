@@ -12,10 +12,11 @@
      <h1 class="form-group   fw-bold mx-auto" style="text-align: center;">Add a New Property</h1>       
     <div  class="form-group mx-auto   mt-3 w-50" >
         <label class="form-label      fw-bold" for="title">Enter a title *</label>
-        <input type="text" class="form-control"      placeholder="Title" id="title"  th:classappend="${#fields.hasErrors('title')}?is-invalid"  th:field="*{title}">
+        <input type="text" class="form-control"      placeholder="Title" id="title"  th:classappend="${#fields.hasErrors('titre')}?is-invalid"  th:field="*{titre}">
     </div>
       <p class="form-group   fw-bold mx-auto mt-3 w-50">Select a Type *</p>
       <div class="form-check form-group mx-auto mt-3 w-50">
+
         <input class="form-check-input" type="radio" name="type" id="sale" value="sale" checked="" th:field="*{type}">
         <label class="form-check-label" for="sale">
             Sale

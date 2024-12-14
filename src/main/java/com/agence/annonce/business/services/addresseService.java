@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.agence.annonce.dao.entities.Address;
 
-public interface addresseService {
+public interface AddresseService {
     List<Address> getAllAddress();
     Address getAddressbyId(Long id);
 }
