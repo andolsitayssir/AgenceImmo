@@ -16,7 +16,7 @@ public class ExceptionController {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException e,
-                                                            Model model){
+                                                         Model model){
         return "<strong>error: </strong>"+e.getMessage();
        //return "errors";
     } 
