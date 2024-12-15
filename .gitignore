@@ -35,3 +35,4 @@ build/
 ### logs ###
 logs/
 *.log
+!logs/app.log
