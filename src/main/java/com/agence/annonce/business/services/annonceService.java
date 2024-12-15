@@ -19,8 +19,8 @@ public interface AnnonceService {
     List<Annonce> getAnnonceSortedByPrice(String order);
     Page<Annonce> getAllAnnoncePagination(Pageable pegeable);
 
-     Page<Annonce> getAnnonceSortedByAgePagination(String order,Pageable pegeable);
-
+    Page<Annonce> getAnnonceSortedByPricePagination(String order,Pageable pegeable);
+   
     //Create
     Annonce addAnnonce(Annonce annonce);
     //Update

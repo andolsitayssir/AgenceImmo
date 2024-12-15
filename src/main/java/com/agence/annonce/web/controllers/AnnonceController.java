@@ -54,7 +54,8 @@ public class AnnonceController  {
        
     @RequestMapping("/property-list")
     public String getAllproduct(@RequestParam(defaultValue = "0") int page,
-    @RequestParam(defaultValue = "5") int pageSize,Model model) {
+                                @RequestParam(defaultValue = "4") int pageSize,
+                                Model model) {
        // List<Annonce> annonces = annonceService.getAllAnnonce();
        Page<Annonce> propertyPage = annonceService.getAllAnnoncePagination(PageRequest.of(page,pageSize));
         model.addAttribute("annonces", propertyPage.getContent());
@@ -64,7 +65,19 @@ public class AnnonceController  {
         return "property-list";
     }
 
-
+    @RequestMapping("/sort")
+    public String getAnnoncesSorted(@RequestParam(required=false,defaultValue="asc") String orderByPrice, 
+                                Model model,
+                                @RequestParam(defaultValue="0") int page,
+                                @RequestParam(defaultValue="4") int pageSize) {
+       Page<Annonce> propertyPage = annonceService.getAnnonceSortedByPricePagination(orderByPrice, PageRequest.of(page,pageSize));
+        model.addAttribute("annonces", propertyPage.getContent());
+        model.addAttribute("orderByPrice", orderByPrice);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", propertyPage.getTotalPages());
+        return "property-list";
+    }
+ 
     @GetMapping("/create-property")
     public String showAddProperty(Model model) {
         model.addAttribute("annonceForm", new annonceForm());
@@ -115,6 +128,7 @@ public class AnnonceController  {
         
     
     }
+
 
 
     @RequestMapping("/edit-property")

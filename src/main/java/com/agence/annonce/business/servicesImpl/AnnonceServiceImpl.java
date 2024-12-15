@@ -65,7 +65,7 @@ public class AnnonceServiceImpl implements AnnonceService {
     }
 
     @Override
-    public Page<Annonce> getAnnonceSortedByAgePagination(String order, Pageable pegeable) {
+    public Page<Annonce> getAnnonceSortedByPricePagination(String order, Pageable pegeable) {
         if(pegeable ==null){
             return null;
         }  

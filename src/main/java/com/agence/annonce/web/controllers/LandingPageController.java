@@ -37,12 +37,13 @@ public class LandingPageController {
     @RequestMapping("/landing-page")
     public String getAllproduct(Model model) {
         List<Annonce> annonces = annonceService.getAllAnnonce();
-        
+        model.addAttribute("annonces", annonces);
         model.addAttribute("categories", Category.values());
         model.addAttribute("types", Type.values());
-        model.addAttribute("annonces", annonces);
+     
         return "landing-page";
     }
+    
     @RequestMapping("/filter")
     public String filterAnnonces(Model model, @RequestParam String type, @RequestParam String category) {
           List<Annonce> filteredAnnonces ;
@@ -56,9 +57,9 @@ public class LandingPageController {
         } else {
             filteredAnnonces = annonceService.getAllAnnonce();
         }
-        model.addAttribute("annonces", filteredAnnonces);
         model.addAttribute("categories", Category.values());
         model.addAttribute("types", Type.values());
+        model.addAttribute("annonces", filteredAnnonces);
         return "landing-page";
     }
     

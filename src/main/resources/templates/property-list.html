@@ -8,26 +8,32 @@
     
 </head>
 <body h:action="@{/annonces/property-list}" th:replace="layout/default-layout::body(title='Property List')">
-     <div th:fragment="content">
+  <script>
+    function submitForm(){
+    document.getElementById("filterForm").submit();
+}
+  </script>  
+  <div th:fragment="content">
 
      <div class="row mt-5">
         <div class="col-8">
           <a class="btn btn-primary" th:href="@{/annonces/create-property}">Add a Property</a>
         </div>
     </div>
-    <div class="col-4">
-      <p><strong>Sort by Age:</strong></p>
-      <form th:action="@{/annonces/filter}" method="get" id="filterForm">
-        <label><input type="radio" name="sortByAge" value="asc" th:checked="${sortByAge=='asc'}"
+    <div class="col-12 mt-2">
+      <p><strong>Sort by Price:</strong></p>
+      <form th:action="@{/annonces/sort}" method="get" id="filterForm">
+        <label><input type="radio" name="orderByPrice" value="asc" th:checked="${orderByPrice=='asc'}"
             onchange="submitForm()"> Ascending</label>
-        <label><input type="radio" name="sortByAge" value="desc" th:checked="${sortByAge=='desc'}"
+        <label><input type="radio" name="orderByPrice" value="desc" th:checked="${orderByPrice=='desc'}"
             onchange="submitForm()"> Descending</label>
       </form>
 
     </div>
-        <table class="table table-hover mt-5 mx-auto">
+        <table class="table table-hover mt-5 ">
   <thead>
     <tr class="table-primary ">
+      <th>N°</th>
       <th scope="col">Title</th>
       <th scope="col">Type</th>
       <th scope="col">Category</th>
@@ -38,12 +44,12 @@
     </tr>
   </thead>
   <tr>
-    <td th:if="${#lists.isEmpty(annonces)}" colspan="6">
-      <p>No property available. Please add a new property.</p>
+    <td th:if="${#lists.isEmpty(annonces)}" colspan="7">
+      <p style="text-align: center;">No property available. Please add a new property.</p>
    </td>
   </tr>
   <tr  th:each="property,state:${annonces}">
-    <td th:text="$state.count+(currentPage*pageSize)"></td>
+    <td th:text="${state.count + (currentPage * pageSize)}"></td>
     <td th:text="${property.titre}"></td>
     <td th:text="${property.type}"></td>
     <td th:text="${property.category}"></td>
@@ -57,21 +63,25 @@
     </tr>
 
 <table>
-    </div>  
-    <div>
-      <ul class="pagination pagination-sm">
-        <li class="page-item" th:classappend="${currentPage==0?'disabled':''}">
-          <a class="page-link" th:href="@{|/annonces?page=${currentPage-1}|}">&laquo;</a>
+     
+  <div class="row mt-5">
+    <ul class="pagination pagination-sm w-100 justify-content-center">
+        <li class="page-item" th:classappend="${currentPage == 0 ? 'disabled' : ''}">
+            <a class="page-link" 
+               th:href="${orderByPrice == null ? '/annonces/property-list?page=' + (currentPage - 1) : '/annonces/sort?orderByPrice=' + orderByPrice + '&page=' + (currentPage - 1)}">&laquo;</a>
         </li>
-        <li th:each="index: ${#numbers.sequence(0,totalPages -1)}" class="page-item"
-            th:classappend="${currentPage==index ?'active':''}">
-          <a class="page-link"th:href="@{|/annonces?page=${index}|}" th:text="${index+1}"></a>
+        <li th:each="index: ${#numbers.sequence(0, totalPages - 1)}" class="page-item" th:classappend="${currentPage == index ? 'active' : ''}">
+            <a class="page-link" 
+               th:href="${orderByPrice == null ? '/annonces/property-list?page=' + index : '/annonces/sort?orderByPrice=' + orderByPrice + '&page=' + index}" 
+               th:text="${index + 1}"></a>
         </li>
-       
-        <li class="page-item"  th:classappend="${currentPage== totalPages -1?'disabled':''}">
-          <a class="page-link" th:href="@{|/annonces?page=${currentPage+1}|}">&raquo;</a>
+        <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
+            <a class="page-link" 
+               th:href="${orderByPrice == null ? '/annonces/property-list?page=' + (currentPage + 1) : '/annonces/sort?orderByPrice=' + orderByPrice + '&page=' + (currentPage + 1)}">&raquo;</a>
         </li>
-      </ul>
-    </div>
+    </ul>
+</div>
+
+  </div> 
 </body>
 </html>
