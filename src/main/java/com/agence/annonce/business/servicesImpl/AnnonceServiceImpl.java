@@ -49,10 +49,7 @@ public class AnnonceServiceImpl implements AnnonceService {
 
     @Override
     public List<Annonce> getAnnonceSortedByPrice(String order) {
-        Sort.Direction direction = Sort.Direction.ASC;
-        if("desc".equalsIgnoreCase(order)){
-            direction = Sort.Direction.DESC;
-        }
+        Sort.Direction direction = "desc".equalsIgnoreCase(order) ? Sort.Direction.DESC : Sort.Direction.ASC;
         return annonceRepository.findAll(Sort.by(direction,"price"));
     }
 

@@ -24,9 +24,9 @@
       <p><strong>Sort by Price:</strong></p>
       <form th:action="@{/annonces/sort}" method="get" id="filterForm">
         <label><input type="radio" name="orderByPrice" value="asc" th:checked="${orderByPrice=='asc'}"
-            onchange="submitForm()"> Ascending</label>
+          onchange="document.getElementById('filterForm').submit()"> Ascending</label>
         <label><input type="radio" name="orderByPrice" value="desc" th:checked="${orderByPrice=='desc'}"
-            onchange="submitForm()"> Descending</label>
+          onchange="document.getElementById('filterForm').submit()"> Descending</label>
       </form>
 
     </div>

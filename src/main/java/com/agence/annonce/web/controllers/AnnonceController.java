@@ -73,6 +73,7 @@ public class AnnonceController  {
        Page<Annonce> propertyPage = annonceService.getAnnonceSortedByPricePagination(orderByPrice, PageRequest.of(page,pageSize));
         model.addAttribute("annonces", propertyPage.getContent());
         model.addAttribute("orderByPrice", orderByPrice);
+        model.addAttribute("pageSize", pageSize);
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", propertyPage.getTotalPages());
         return "property-list";
