@@ -30,9 +30,5 @@ public class Photo {
     @JoinColumn(name = "annonce_id", nullable = false)
     private Annonce annonce;
 
-    public Photo(Long photo_id, String url) {
-        this.photo_id = photo_id;
-        this.url = url;
-    }
     
 }

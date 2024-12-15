@@ -15,8 +15,10 @@ public interface AnnonceService {
     Annonce getAnnoncebyId(Long id);
     List<Annonce> getAnnonceByType(Type type);
     List<Annonce> getAnnonceByCategory(Category category);
+    List<Annonce> getAnnonceByTypeAndCategory(Type type,Category category);
     List<Annonce> getAnnonceSortedByPrice(String order);
     Page<Annonce> getAllAnnoncePagination(Pageable pegeable);
+
      Page<Annonce> getAnnonceSortedByAgePagination(String order,Pageable pegeable);
 
     //Create

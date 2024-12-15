@@ -37,6 +37,10 @@ public class AnnonceServiceImpl implements AnnonceService {
     public List<Annonce> getAnnonceByType(Type type) {
         return this.annonceRepository.findByType(type);
     }
+    @Override
+    public List<Annonce> getAnnonceByTypeAndCategory(Type type, Category category) {
+        return this.annonceRepository.findByTypeAndCategory(type, category);
+    }
 
     @Override
     public List<Annonce> getAnnonceByCategory(Category category) {
@@ -72,7 +76,7 @@ public class AnnonceServiceImpl implements AnnonceService {
         Pageable sortedPageable=PageRequest.of(
             pegeable.getPageNumber(),
             pegeable.getPageSize(),
-            Sort.by(direction,"age")
+            Sort.by(direction,"price")
         );
         return this.annonceRepository.findAll(sortedPageable);
     }

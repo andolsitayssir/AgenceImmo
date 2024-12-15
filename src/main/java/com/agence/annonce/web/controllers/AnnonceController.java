@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +25,8 @@ import com.agence.annonce.dao.repositories.AddresseRepository;
 import com.agence.annonce.web.models.annonceForm;
 
 import jakarta.validation.Valid;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import com.agence.annonce.business.services.AddresseService;
 import com.agence.annonce.business.services.AnnonceService;
@@ -51,10 +53,14 @@ public class AnnonceController  {
     }
        
     @RequestMapping("/property-list")
-    public String getAllproduct(Model model) {
-        List<Annonce> annonces = annonceService.getAllAnnonce();
-        model.addAttribute("annonces", annonces);
-        
+    public String getAllproduct(@RequestParam(defaultValue = "0") int page,
+    @RequestParam(defaultValue = "5") int pageSize,Model model) {
+       // List<Annonce> annonces = annonceService.getAllAnnonce();
+       Page<Annonce> propertyPage = annonceService.getAllAnnoncePagination(PageRequest.of(page,pageSize));
+        model.addAttribute("annonces", propertyPage.getContent());
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", propertyPage.getTotalPages());
         return "property-list";
     }
 
@@ -65,53 +71,50 @@ public class AnnonceController  {
         model.addAttribute("categories", Category.values());
         return "add-property";
     }
-    @Autowired
-    private AddresseRepository addressRepository;
+
+
 
      @RequestMapping(path="/create-property", method= RequestMethod.POST)
     public String addProperty(@Valid @ModelAttribute annonceForm annonceForm, BindingResult bindingResult,Model model,@RequestParam("photos") MultipartFile[] photos){
-        Address address = new Address(annonceForm.getGovernorate(),annonceForm.getCity(),annonceForm.getStreet());   
-        addressRepository.save(address);
+        Address address = new Address(annonceForm.getGovernorate(),annonceForm.getCity(),annonceForm.getStreet());
+        this.addresseService.addAddress(address);   
+
+
         List<Photo> photosList = new ArrayList<Photo>();
         if (bindingResult.hasErrors()) {
             model.addAttribute("error", "Invalid input");
             model.addAttribute("categories", Category.values());
             return "add-property";
         }
- 
-        Annonce annonce = new Annonce();
-        annonce.setTitre(annonceForm.getTitre());
-        annonce.setDescription(annonceForm.getDescription());
-        annonce.setSurface(annonceForm.getSurface());
-        annonce.setPrice(annonceForm.getPrice());
-        annonce.setType(annonceForm.getType());
-        annonce.setCategory(annonceForm.getCategory());
-        annonce.setTel(annonceForm.getTel());
-        annonce.setAddress(address);
-        for (MultipartFile photo : photos) {
-            if (!photo.isEmpty()) {
-                String fileName = photo.getOriginalFilename();
-                String filePath = uploadDirectory + "/" + fileName;
+
+
+           Annonce annonce =new Annonce(null, annonceForm.getTitre(), annonceForm.getDescription(), annonceForm.getSurface(), annonceForm.getPrice(), annonceForm.getType(), annonceForm.getCategory(), address, annonceForm.getTel(), null);
+            if (photos.length > 0) {
+            
+                for (MultipartFile photo : photos) {
+                    
+                StringBuilder fileName = new StringBuilder();
+                fileName.append(photo.getOriginalFilename());
+                Path newFilePath = Paths.get(uploadDirectory, fileName.toString());
                 try {
-                    Path path = Paths.get(filePath);
-                    Files.write(path, photo.getBytes());
-                    Photo photoEntity = new Photo();
-                    photoEntity.setUrl(fileName);
-                    photoEntity.setAnnonce(annonce); 
-                    photosList.add(photoEntity);
+                    Files.write(newFilePath, photo.getBytes());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                photosList.add(new Photo(null, fileName.toString(), annonce ));
+                
+                
             }
-        }
-        annonce.setPhotos(photosList);
-        annonceService.addAnnonce(annonce);
+            annonce.setPhotos(photosList);
+             this.annonceService.addAnnonce(annonce);
+        }     
+        
 
          return "redirect:/annonces/property-list";
-    }
+    
         
     
-
+    }
 
 
     @RequestMapping("/edit-property")

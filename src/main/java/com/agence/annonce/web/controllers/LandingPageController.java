@@ -37,19 +37,24 @@ public class LandingPageController {
     @RequestMapping("/landing-page")
     public String getAllproduct(Model model) {
         List<Annonce> annonces = annonceService.getAllAnnonce();
-        model.addAttribute("annonces", annonces);
+        
         model.addAttribute("categories", Category.values());
         model.addAttribute("types", Type.values());
+        model.addAttribute("annonces", annonces);
         return "landing-page";
     }
     @RequestMapping("/filter")
     public String filterAnnonces(Model model, @RequestParam String type, @RequestParam String category) {
-        List<Annonce> annonces = annonceService.getAllAnnonce();
-        List<Annonce> filteredAnnonces = new ArrayList<Annonce>();
-        for (Annonce annonce : annonces) {
-            if (annonce.getType().toString().equals(type) && annonce.getCategory().toString().equals(category)) {
-                filteredAnnonces.add(annonce);
-            }
+          List<Annonce> filteredAnnonces ;
+          if (type != null && !type.isEmpty() && category != null && !category.isEmpty()) {
+            filteredAnnonces = annonceService.getAnnonceByTypeAndCategory(Type.valueOf(type), Category.valueOf(category));
+        } 
+        else if (type != null && !type.isEmpty()) {
+            filteredAnnonces = annonceService.getAnnonceByType(Type.valueOf(type));
+        } else if (category != null && !category.isEmpty()) {
+            filteredAnnonces = annonceService.getAnnonceByCategory(Category.valueOf(category));
+        } else {
+            filteredAnnonces = annonceService.getAllAnnonce();
         }
         model.addAttribute("annonces", filteredAnnonces);
         model.addAttribute("categories", Category.values());
