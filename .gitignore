@@ -35,6 +35,8 @@ build/
 ### logs ###
 logs/
 *.log
+logs/app.log
+logs/*.gz
 
 ### resources ###
 resources/images/
