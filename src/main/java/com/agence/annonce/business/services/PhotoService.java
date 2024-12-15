@@ -9,6 +9,10 @@ public interface PhotoService {
     List<Photo> getPhotoByAnnonce(Annonce annonce);
     Photo getPhotobyId(Long id);
 
+    // Create 
+    Photo addPhoto(Photo photo);
+    // Delete
+    void deletePhotoByAnnonce(Annonce annonce);
     
 
 }

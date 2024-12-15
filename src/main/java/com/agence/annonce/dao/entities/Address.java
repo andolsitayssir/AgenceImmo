@@ -34,5 +34,5 @@ public class Address {
         this.governorate = governorate;
         this.street = street;
     }
-    
+ 
 }

@@ -27,4 +27,17 @@ public class PhotoServiceImpl implements PhotoService  {
         return this.photoRepository.findById(id).get();
     }
 
+
+    @Override
+    public Photo addPhoto(Photo photo) {
+        return this.photoRepository.save(photo);
+    }
+
+
+
+    @Override
+    public void deletePhotoByAnnonce(Annonce annonce) {
+        this.photoRepository.deleteByAnnonce(annonce);
+    }
+
 }

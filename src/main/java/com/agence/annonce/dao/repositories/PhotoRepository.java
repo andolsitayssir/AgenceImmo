@@ -11,4 +11,5 @@ import com.agence.annonce.dao.entities.Photo;
 @Repository
 public interface PhotoRepository extends JpaRepository<Photo, Long> {
     List<Photo> findByAnnonce(Annonce annonce);
+    void deleteByAnnonce(Annonce annonce);
 }
