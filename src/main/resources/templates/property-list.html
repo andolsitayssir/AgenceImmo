@@ -42,7 +42,7 @@
       <p>No property available. Please add a new property.</p>
    </td>
   </tr>
-  <tr  th:each="property:${annonces}">
+  <tr  th:each="property,state:${annonces}">
     <td th:text="${property.titre}"></td>
     <td th:text="${property.type}"></td>
     <td th:text="${property.category}"></td>
@@ -50,8 +50,12 @@
     <td th:text="${property.surface}"></td>
     <td th:text="${property.address.governorate}"></td>
     <td>
-        <a  class="btn btn-secondary">Edit</a>
-        <a  class="btn btn-danger">Delete</a>
+        <form class="col-6" th:action="@{|/annonces/${property.annonce_id}/edit-property|}" method="get">
+          <input type="submit" class="btn btn-secondary"value="Update">> 
+        </form>
+        <form class="col-6" th:action="@{|/annonces/${property.annonce_id}/delete-property|}" method="Post">
+          <input type="submit" class="btn btn-danger" value="Delete">
+        </form>
     </td>
     </tr>
 
