@@ -77,6 +77,21 @@ public class AnnonceServiceImpl implements AnnonceService {
         );
         return this.annonceRepository.findAll(sortedPageable);
     }
+    @Override
+    public Page<Annonce> getAnnonceByTypeAndCategoryPagination(Type type, Category category, PageRequest pageRequest) {
+        return annonceRepository.findByTypeAndCategory(type, category, pageRequest);
+    }
+    
+    @Override
+    public Page<Annonce> getAnnonceByTypePagination(Type type, PageRequest pageRequest) {
+        return annonceRepository.findByType(type, pageRequest);
+    }
+    
+    @Override
+    public Page<Annonce> getAnnonceByCategoryPagination(Category category, PageRequest pageRequest) {
+        return annonceRepository.findByCategory(category, pageRequest);
+    }
+    
 
 
 
