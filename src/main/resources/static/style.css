@@ -3,3 +3,16 @@ form{
     padding: 1rem;
     margin: 2rem;
 }
+#carouselExampleIndicators {
+    max-width: 400px; 
+    float: right; 
+    margin: 0 20px; 
+}
+
+
+.carousel-inner img {
+    width: 100%;
+    height: 250px; 
+    object-fit: cover; 
+}
+

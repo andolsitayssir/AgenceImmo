@@ -5,6 +5,8 @@ import java.util.List;
 import com.agence.annonce.dao.entities.Address;
 import com.agence.annonce.dao.entities.Annonce;
 
+import jakarta.transaction.Transactional;
+
 public interface AddresseService {
     List<Address> getAllAddress();
     Address getAddressbyAnnonce(Annonce annonce);
@@ -13,7 +15,7 @@ public interface AddresseService {
     Address addAddress(Address address);
     // Update 
     Address updateAddress(Address address);
-    // Delete 
+  
     void deleteAddressByAnnonce(Annonce annonce);
 
 }

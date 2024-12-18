@@ -3,11 +3,14 @@ package com.agence.annonce.business.servicesImpl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.agence.annonce.business.services.PhotoService;
 import com.agence.annonce.dao.entities.Annonce;
 import com.agence.annonce.dao.entities.Photo;
 import com.agence.annonce.dao.repositories.PhotoRepository;
+
+
 
 @Service
 public class PhotoServiceImpl implements PhotoService  {
@@ -38,6 +41,11 @@ public class PhotoServiceImpl implements PhotoService  {
     @Override
     public void deletePhotoByAnnonce(Annonce annonce) {
         this.photoRepository.deleteByAnnonce(annonce);
+    }
+    
+    @Override
+    public void deletePhotoById(Long photoId) {
+        this.photoRepository.deleteById(photoId);
     }
 
 }

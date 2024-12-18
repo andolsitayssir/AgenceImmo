@@ -59,7 +59,7 @@ public class Annonce {
     @Column(name = "price" )
     private Double price;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id", referencedColumnName = "address_id")
     private Address address;
    

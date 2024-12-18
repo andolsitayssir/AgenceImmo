@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tomcat.jni.Library;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,6 +27,8 @@ import com.agence.annonce.dao.entities.Photo;
 import com.agence.annonce.web.models.annonceForm;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import com.agence.annonce.business.services.AddresseService;
 import com.agence.annonce.business.services.AnnonceService;
@@ -42,8 +43,7 @@ import org.springframework.mock.web.MockMultipartFile;
 @RequestMapping("/annonces")
 public class AnnonceController  {
 
-    private static List<Annonce> annonces = new ArrayList<Annonce>();
-    private static Long idCount =0L;
+
     public static String uploadDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images";
 
     private final AnnonceService annonceService;
@@ -57,14 +57,32 @@ public class AnnonceController  {
     }
        
     @RequestMapping("/property-list")
-    public String getAllproduct(Model model) {
-        List<Annonce> annonces = annonceService.getAllAnnonce();
-        model.addAttribute("annonces", annonces);
-        
+    public String getAllproduct(@RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "4") int pageSize,
+                                Model model) {
+       // List<Annonce> annonces = annonceService.getAllAnnonce();
+       Page<Annonce> propertyPage = annonceService.getAllAnnoncePagination(PageRequest.of(page,pageSize));
+        model.addAttribute("annonces", propertyPage.getContent());
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", propertyPage.getTotalPages());
         return "property-list";
     }
 
-
+    @RequestMapping("/sort")
+    public String getAnnoncesSorted(@RequestParam(required=false,defaultValue="asc") String orderByPrice, 
+                                Model model,
+                                @RequestParam(defaultValue="0") int page,
+                                @RequestParam(defaultValue="4") int pageSize) {
+       Page<Annonce> propertyPage = annonceService.getAnnonceSortedByPricePagination(orderByPrice, PageRequest.of(page,pageSize));
+        model.addAttribute("annonces", propertyPage.getContent());
+        model.addAttribute("orderByPrice", orderByPrice);
+        model.addAttribute("pageSize", pageSize);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", propertyPage.getTotalPages());
+        return "property-list";
+    }
+ 
     @GetMapping("/create-property")
     public String showAddProperty(Model model) {
         model.addAttribute("annonceForm", new annonceForm());
@@ -135,18 +153,10 @@ public class AnnonceController  {
     @RequestMapping("{id}/edit-property")
     public String showEditProperty(@PathVariable Long id,Model model) {
         Annonce annonce = this.annonceService.getAnnoncebyId(id);
-        List<MultipartFile> photoFiles = new ArrayList<>();
-        for (Photo photo : annonce.getPhotos()) {
-            try {
-                MultipartFile photoFile = convertPhotoToMultipartFile(photo);
-                model.addAttribute("photoFile", photoFile);
-                photoFiles.add(photoFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        List<Photo> photos = photoService.getPhotoByAnnonce(annonce);
 
-        model.addAttribute("annonceForm", new annonceForm(annonce.getTitre(),annonce.getType(),annonce.getCategory(), annonce.getDescription(),annonce.getTel(), annonce.getSurface(), annonce.getPrice(), annonce.getAddress().getGovernorate(), annonce.getAddress().getCity(), annonce.getAddress().getStreet(),photoFiles));
+        model.addAttribute("photos", photos);
+        model.addAttribute("annonceForm", new annonceForm(annonce.getTitre(),annonce.getType(),annonce.getCategory(), annonce.getDescription(),annonce.getTel(), annonce.getSurface(), annonce.getPrice(), annonce.getAddress().getGovernorate(), annonce.getAddress().getCity(), annonce.getAddress().getStreet(),null));
         model.addAttribute("annonce_id", id);
         model.addAttribute("categories", Category.values());
         return "edit-property";
@@ -166,17 +176,14 @@ public class AnnonceController  {
         return "edit-property";
     }
 
-    // Fetch the existing annonce and its related address and photos
     Annonce annonce = annonceService.getAnnoncebyId(id);
     Address address = annonce.getAddress();
 
-    // Update address details
     address.setGovernorate(annonceForm.getGovernorate());
     address.setCity(annonceForm.getCity());
     address.setStreet(annonceForm.getStreet());
 
-    // Update annonce details
-    annonce.setTitre(annonceForm.getTitre());
+     annonce.setTitre(annonceForm.getTitre());
     annonce.setDescription(annonceForm.getDescription());
     annonce.setSurface(annonceForm.getSurface());
     annonce.setPrice(annonceForm.getPrice());
@@ -184,14 +191,13 @@ public class AnnonceController  {
     annonce.setCategory(annonceForm.getCategory());
     annonce.setTel(annonceForm.getTel());
 
-    // Update photos (modify existing collection instead of replacing it)
     List<Photo> existingPhotos = annonce.getPhotos();
     if (existingPhotos == null) {
         existingPhotos = new ArrayList<>();
         annonce.setPhotos(existingPhotos);
     }
 
-    // Add new photos
+    
     for (MultipartFile photo : photos) {
         if (!photo.isEmpty()) {
             String fileName = photo.getOriginalFilename();
@@ -205,7 +211,7 @@ public class AnnonceController  {
         }
     }
 
-    // Save updated entities
+  
     addresseService.updateAddress(address);
     annonceService.updateAnnonce(annonce);
 
@@ -213,10 +219,12 @@ public class AnnonceController  {
 }
 
 
-    @RequestMapping(path = "{id}/delete", method = RequestMethod.POST)
+    @RequestMapping(path = "{id}/delete-property", method = RequestMethod.POST)
     public String deleteAnnonce(@PathVariable Long id) {
         Annonce annonce = this.annonceService.getAnnoncebyId(id);
-        this.addresseService.deleteAddressByAnnonce(annonce);
+        if (annonce != null) {
+           
+        this.annonceService.deleteAnnonceById(id);
 
         List<Photo> photosList = this.photoService.getPhotoByAnnonce(annonce);
         for (Photo photo : photosList) {
@@ -226,13 +234,16 @@ public class AnnonceController  {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            this.photoService.deletePhotoByAnnonce(annonce);
-        }
-
-            return "redirect:/annonces/property-list";
+              this.photoService.deletePhotoByAnnonce(annonce);
         }
       
+     
+          
+        }
+        return "redirect:/annonces/property-list";
+      
     }
+}
 
     
     

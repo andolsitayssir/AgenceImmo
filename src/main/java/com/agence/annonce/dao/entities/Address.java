@@ -1,4 +1,7 @@
 package com.agence.annonce.dao.entities;
+
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +30,7 @@ public class Address {
     private String city;
     @Column(name = "street")
     private String street;
-    @OneToOne(mappedBy="address")
+    @OneToOne(mappedBy="address", cascade = CascadeType.ALL, orphanRemoval = true)
     private Annonce annonce;
     public Address(String city, String governorate, String street) {
         this.city = city;
