@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.agence.annonce.dao.entities.Category;
+import com.agence.annonce.dao.entities.Photo;
 import com.agence.annonce.dao.entities.Type;
 
 import jakarta.validation.constraints.Digits;
@@ -22,6 +23,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class annonceForm {
+
 
     @NotBlank(message="Title is required")
     private String titre;

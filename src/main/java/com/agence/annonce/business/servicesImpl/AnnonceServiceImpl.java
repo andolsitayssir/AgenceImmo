@@ -6,12 +6,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.agence.annonce.business.services.AnnonceService;
 import com.agence.annonce.dao.entities.Annonce;
 import com.agence.annonce.dao.entities.Category;
 import com.agence.annonce.dao.entities.Type;
 import com.agence.annonce.dao.repositories.AnnonceRepository;
+
+
 
 @Service
 public class AnnonceServiceImpl implements AnnonceService {
@@ -113,7 +116,7 @@ public class AnnonceServiceImpl implements AnnonceService {
        return this.annonceRepository.save(annonce);
     }
 
-    @Override
+   @Override
     public void deleteAnnonceById(Long id) {
         if(id==null){
             return ;

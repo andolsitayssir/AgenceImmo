@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.agence.annonce.business.services.AddresseService;
@@ -16,9 +17,11 @@ import com.agence.annonce.dao.entities.Annonce;
 import com.agence.annonce.dao.entities.Category;
 import com.agence.annonce.dao.entities.Photo;
 import com.agence.annonce.dao.entities.Type;
-
+import com.agence.annonce.web.models.annonceForm;
 
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 
 
 @Controller
@@ -95,6 +98,17 @@ public class LandingPageController {
         model.addAttribute("categories", Category.values());
     
         return "landing-page";
+    }
+    
+    @RequestMapping("{id}/property-details")
+    public String showPropertyDetails(@PathVariable Long id, Model model) {
+        Annonce annonce = annonceService.getAnnoncebyId(id);
+        List<Photo> photos = photoService.getPhotoByAnnonce(annonce);
+         model.addAttribute("annonce", annonce);
+         model.addAttribute("photos", photos);
+         model.addAttribute("annonce_id", id);
+
+        return "property-details";
     }
     
 

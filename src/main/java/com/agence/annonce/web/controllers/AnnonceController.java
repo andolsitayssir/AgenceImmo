@@ -1,18 +1,20 @@
 package com.agence.annonce.web.controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.agence.annonce.dao.entities.Annonce;
 import com.agence.annonce.dao.entities.Category;
 import com.agence.annonce.dao.entities.Photo;
-import com.agence.annonce.dao.repositories.AddresseRepository;
+
 import com.agence.annonce.web.models.annonceForm;
 
 import jakarta.validation.Valid;
@@ -33,13 +35,15 @@ import com.agence.annonce.business.services.AnnonceService;
 import com.agence.annonce.business.services.PhotoService;
 import com.agence.annonce.dao.entities.Address;
 
+import org.springframework.mock.web.MockMultipartFile;
+
+
 
 @Controller
 @RequestMapping("/annonces")
 public class AnnonceController  {
 
-    private static List<Annonce> annonces = new ArrayList<Annonce>();
-    private static Long idCount =0L;
+
     public static String uploadDirectory = System.getProperty("user.dir") + "/src/main/resources/static/images";
 
     private final AnnonceService annonceService;
@@ -103,43 +107,144 @@ public class AnnonceController  {
 
 
            Annonce annonce =new Annonce(null, annonceForm.getTitre(), annonceForm.getDescription(), annonceForm.getSurface(), annonceForm.getPrice(), annonceForm.getType(), annonceForm.getCategory(), address, annonceForm.getTel(), null);
-            if (photos.length > 0) {
-            
                 for (MultipartFile photo : photos) {
-                    
-                StringBuilder fileName = new StringBuilder();
-                fileName.append(photo.getOriginalFilename());
-                Path newFilePath = Paths.get(uploadDirectory, fileName.toString());
-                try {
-                    Files.write(newFilePath, photo.getBytes());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    if (!photo.isEmpty()) { // Check if the photo is not empty
+                        StringBuilder fileName = new StringBuilder();
+                        fileName.append(photo.getOriginalFilename());
+                        Path newFilePath = Paths.get(uploadDirectory, fileName.toString());
+                        try {
+                            Files.write(newFilePath, photo.getBytes());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        photosList.add(new Photo(null, fileName.toString(), annonce));
+                    }
                 }
-                photosList.add(new Photo(null, fileName.toString(), annonce ));
-                
-                
-            }
-            annonce.setPhotos(photosList);
-             this.annonceService.addAnnonce(annonce);
-        }     
-        
-
-         return "redirect:/annonces/property-list";
-    
-        
-    
+                if (!photosList.isEmpty()) {
+                    annonce.setPhotos(photosList);
+                }
+            this.annonceService.addAnnonce(annonce); // Save the annonce, which will also save the photos due to cascade
+            return "redirect:/annonces/property-list";
     }
+    public MultipartFile convertPhotoToMultipartFile(Photo photo) throws IOException {
+        // Check if the url points to a file on disk
+        File file = new File(photo.getUrl());
+    
+        // If file exists and is not a directory
+        if (file.exists() && file.isFile()) {
+            // Read the file content
+            FileInputStream fileInputStream = new FileInputStream(file);
+            byte[] data = fileInputStream.readAllBytes();
+            fileInputStream.close();
+    
+            // Create the MultipartFile from the file data
+            return new MockMultipartFile(
+                "file",                           // Form field name
+                file.getName(),                    // Original file name
+                "image/jpeg",                      // Content type (adjust if necessary)
+                data                               // File content as byte array
+            );
+        } else {
+            // Handle the case where the file doesn't exist or the URL is not a valid file
+            throw new IOException("File not found at URL: " + photo.getUrl());
+        }
+    }
+ 
+    @RequestMapping("{id}/edit-property")
+    public String showEditProperty(@PathVariable Long id,Model model) {
+        Annonce annonce = this.annonceService.getAnnoncebyId(id);
+        List<Photo> photos = photoService.getPhotoByAnnonce(annonce);
 
-
-
-    @RequestMapping("/edit-property")
-    public String showEditProperty(Model model) {
-        model.addAttribute("annonceForm", new annonceForm());
+        model.addAttribute("photos", photos);
+        model.addAttribute("annonceForm", new annonceForm(annonce.getTitre(),annonce.getType(),annonce.getCategory(), annonce.getDescription(),annonce.getTel(), annonce.getSurface(), annonce.getPrice(), annonce.getAddress().getGovernorate(), annonce.getAddress().getCity(), annonce.getAddress().getStreet(),null));
+        model.addAttribute("annonce_id", id);
+        model.addAttribute("categories", Category.values());
         return "edit-property";
     }
-    
+
+   
+    @RequestMapping(path = "{id}/edit-property", method = RequestMethod.POST)
+    public String editProperty(
+        @Valid @ModelAttribute annonceForm annonceForm,
+        BindingResult bindingResult,
+        @PathVariable Long id,
+        Model model,
+        @RequestParam("photos") MultipartFile[] photos) {
+
+    if (bindingResult.hasErrors()) {
+        model.addAttribute("categories", Category.values());
+        return "edit-property";
+    }
+
+    Annonce annonce = annonceService.getAnnoncebyId(id);
+    Address address = annonce.getAddress();
+
+    address.setGovernorate(annonceForm.getGovernorate());
+    address.setCity(annonceForm.getCity());
+    address.setStreet(annonceForm.getStreet());
+
+     annonce.setTitre(annonceForm.getTitre());
+    annonce.setDescription(annonceForm.getDescription());
+    annonce.setSurface(annonceForm.getSurface());
+    annonce.setPrice(annonceForm.getPrice());
+    annonce.setType(annonceForm.getType());
+    annonce.setCategory(annonceForm.getCategory());
+    annonce.setTel(annonceForm.getTel());
+
+    List<Photo> existingPhotos = annonce.getPhotos();
+    if (existingPhotos == null) {
+        existingPhotos = new ArrayList<>();
+        annonce.setPhotos(existingPhotos);
+    }
 
     
-    
+    for (MultipartFile photo : photos) {
+        if (!photo.isEmpty()) {
+            String fileName = photo.getOriginalFilename();
+            Path filePath = Paths.get(uploadDirectory, fileName);
+            try {
+                Files.write(filePath, photo.getBytes());
+                existingPhotos.add(new Photo(null, fileName, annonce)); // Add to the existing collection
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+  
+    addresseService.updateAddress(address);
+    annonceService.updateAnnonce(annonce);
+
+    return "redirect:/annonces/property-list";
 }
+
+
+    @RequestMapping(path = "{id}/delete-property", method = RequestMethod.POST)
+    public String deleteAnnonce(@PathVariable Long id) {
+        Annonce annonce = this.annonceService.getAnnoncebyId(id);
+        if (annonce != null) {
+           
+        this.annonceService.deleteAnnonceById(id);
+
+        List<Photo> photosList = this.photoService.getPhotoByAnnonce(annonce);
+        for (Photo photo : photosList) {
+            Path filePath = Paths.get(uploadDirectory, photo.getUrl());
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+              this.photoService.deletePhotoByAnnonce(annonce);
+        }
+      
+     
+          
+        }
+        return "redirect:/annonces/property-list";
+      
+    }
+}
+
+    
+    
+

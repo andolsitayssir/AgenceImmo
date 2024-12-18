@@ -8,14 +8,11 @@
     
 </head>
 <body h:action="@{/annonces/property-list}" th:replace="layout/default-layout::body(title='Property List')">
-  <script>
-    function submitForm(){
-    document.getElementById("filterForm").submit();
-}
+
   </script>  
   <div th:fragment="content">
 
-     <div class="row mt-5">
+     <div class="row " style="margin-top: 20vh;">
         <div class="col-8">
           <a class="btn btn-primary" th:href="@{/annonces/create-property}">Add a Property</a>
         </div>
@@ -24,9 +21,9 @@
       <p><strong>Sort by Price:</strong></p>
       <form th:action="@{/annonces/sort}" method="get" id="filterForm">
         <label><input type="radio" name="orderByPrice" value="asc" th:checked="${orderByPrice=='asc'}"
-            onchange="submitForm()"> Ascending</label>
+            onchange="document.getElementById('filterForm').submit()"> Ascending</label>
         <label><input type="radio" name="orderByPrice" value="desc" th:checked="${orderByPrice=='desc'}"
-            onchange="submitForm()"> Descending</label>
+            onchange="document.getElementById('filterForm').submit()"> Descending</label>
       </form>
 
     </div>
@@ -57,9 +54,14 @@
     <td th:text="${property.surface}"></td>
     <td th:text="${property.address.governorate}"></td>
     <td>
-        <a  class="btn btn-secondary">Edit</a>
-        <a  class="btn btn-danger">Delete</a>
-    </td>
+      <form th:action="@{|/annonces/${property.annonce_id}/edit-property|}" method="get" style="display: inline-block; margin-right: 10px;">
+          <input type="submit" class="btn btn-secondary" value="Update">
+      </form>
+      <form th:action="@{|/annonces/${property.annonce_id}/delete-property|}" method="post" style="display: inline-block;">
+          <input type="submit" class="btn btn-danger" value="Delete">
+      </form>
+  </td>
+  
     </tr>
 
 <table>
