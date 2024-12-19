@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgenceImmo</title>
+    <link th:replace="layout/layout-home::link">
+  <style>
+    h1{
+      color: rgb(13, 54, 90);
+      text-align: center;
+    }
+    h6{
+        text-align: center;
+    }
+  </style>
+</head>
+<body th:replace="layout/layout-home::body(title='Home')">
+   <div th:fragment="content" style="margin-top: 40vh;">
+    <h1 class="fw-bold" >Welcome to AgenceImmo</h1>
+    <h6 class="fw-bold" >Discover Our available Properties here</h6>
+    <a th:href="@{/properties}" class="btn btn-primary mt-2 mb-2" style="margin-left: 48%;"><i class="bi bi-arrow-right"></i></a>
+   </div> 
+</body>
+</html>

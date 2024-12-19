@@ -235,10 +235,7 @@ public class AnnonceController  {
                 e.printStackTrace();
             }
               this.photoService.deletePhotoByAnnonce(annonce);
-        }
-      
-     
-          
+        }     
         }
         return "redirect:/annonces/property-list";
       

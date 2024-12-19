@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -25,10 +26,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/properties")
 public class LandingPageController {
-   
-   
     private final PhotoService photoService;
     private final AddresseService addresseService;
 
@@ -40,7 +39,7 @@ public class LandingPageController {
         this.addresseService=addresseService;
         this.photoService=photoService;
     }
-    @RequestMapping("/landing-page")
+    @RequestMapping()
     public String getAllproduct(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "6") int pageSize,
                                 Model model) {

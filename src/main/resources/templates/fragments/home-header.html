@@ -8,11 +8,11 @@
 <body>
   <nav class="navbar navbar-expand-lg bg-primary justify-content-center fixed-top mb-5" th:fragment="header(title)" >
     <div class="container-fluid" >
-      <a class="navbar-brand" th:href="@{/home/landing-page}"><img th:src="@{/images/logo.png}" alt="Logo" width="50" height="50"><span style="margin-left: 3%; color: white;">AgenceImmo</span></a>
+      <a class="navbar-brand" th:href="@{/properties}"><img th:src="@{/images/logo.png}" alt="Logo" width="50" height="50"><span style="margin-left: 3%; color: white;">AgenceImmo</span></a>
       <div class="navbar-nav w-100 justify-content-center">
-        <a th:href="@{/home/landing-page}" class="nav-link text-white">Home</a>
-
-     </div>
+         <a th:href="@{/home}" class="nav-link text-white">Home</a>
+         <a th:href="@{/properties}" class="nav-link text-white">Available Properties</a>
+      </div>
     </div>
   </nav>
       <h1 class="container" th:text="${title}">Default title</h1>

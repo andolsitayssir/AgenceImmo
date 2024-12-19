@@ -6,9 +6,9 @@
     <title>AgenceImmo</title>
     <link th:replace="layout/layout-home::link">
    
-    <body th:action="@{/home/landing-page}" th:replace="layout/layout-home::body(title='Landing Page')">
+    <body th:action="@{/properties}" th:replace="layout/layout-home::body(title='Landing Page')">
       <div th:fragment="content">
-        <form th:action="@{/home/filter}" method="get" class="form-inline row "style="margin-top:20vh" >
+        <form th:action="@{/properties/filter}" method="get" class="form-inline row "style="margin-top:20vh" >
               <div class="form-group mb-2 mr-5 col">
                 <select id="type" name="type" class="form-control">
                   <option value="" th:text="'All Types'"></option>
@@ -46,7 +46,7 @@
             <p class="card-text " > <i class="fa-solid fa-dollar" style="margin-right:0.5em ;"></i> <span th:text=" ${property.price} + ' TND'"></span></p>
             <p class="card-text "> <i class="fa-solid fa-location-dot"style="margin-right:0.5em ;" ></i><span th:text=" ${property.address.governorate}"></span></p>
             <p class="card-text "><i class="fa-solid fa-phone" style="margin-right:0.5em ;"></i><span th:text="${property.tel}"></span></p>
-            <form th:action="@{|/home/${property.annonce_id}/property-details|}" method="get">
+            <form th:action="@{|/properties/${property.annonce_id}/property-details|}" method="get">
             <input type="submit" class="btn btn-primary" value="More details">
          </form> 
         </div>
@@ -57,14 +57,14 @@
   <div>
     <ul class="pagination pagination-sm">
       <li class="page-item" th:classappend="${currentPage==0?'disabled':''}">
-        <a class="page-link" th:href="@{|/home/landing-page?page=${currentPage - 1}&pageSize=${pageSize}|}">&laquo;</a>
+        <a class="page-link" th:href="@{|/properties?page=${currentPage - 1}&pageSize=${pageSize}|}">&laquo;</a>
       </li>
       <li th:each="index: ${#numbers.sequence(0, totalPages - 1)}" class="page-item"
           th:classappend="${currentPage == index ? 'active' : ''}">
-        <a class="page-link" th:href="@{|/home/landing-page?page=${index}&pageSize=${pageSize}|}" th:text="${index + 1}"></a>
+        <a class="page-link" th:href="@{|/properties?page=${index}&pageSize=${pageSize}|}" th:text="${index + 1}"></a>
       </li>
       <li class="page-item" th:classappend="${currentPage == totalPages - 1 ? 'disabled' : ''}">
-        <a class="page-link" th:href="@{|/home/landing-page?page=${currentPage + 1}&pageSize=${pageSize}|}">&raquo;</a>
+        <a class="page-link" th:href="@{|/properties?page=${currentPage + 1}&pageSize=${pageSize}|}">&raquo;</a>
       </li>
     </ul>
     

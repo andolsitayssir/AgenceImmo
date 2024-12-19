@@ -21,16 +21,16 @@ public class ExceptionController {
       //return "errors";
    } 
    @ExceptionHandler(Exception.class)
-   //@ResponseBody
+   
    @ResponseStatus(HttpStatus.BAD_REQUEST)
    public String ExceptionHandler(Exception e,
                                                            Model model){
-     //  return "<strong>error: </strong>"+e.getMessage();
+     
      model.addAttribute("error", e.getMessage());
       return "errors";
    } 
    @ExceptionHandler(MissingServletRequestParameterException.class)
-   //@ResponseBody
+   
    @ResponseStatus(HttpStatus.BAD_REQUEST)
    public String missingServletRequestParameterExceptionHandler(MissingServletRequestParameterException e,
                                                            Model model){

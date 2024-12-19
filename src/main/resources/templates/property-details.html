@@ -40,7 +40,7 @@
         }
     </style>
 </head>
-<body th:action="@{/home/property-details}" th:replace="layout/layout-home::body(title='property details')">
+<body th:action="@{/properties/property-details}" th:replace="layout/layout-home::body(title='property details')">
     <div th:fragment="content">
       <div>
         <h2 class="fw-bold " th:text="${annonce.titre}" style="text-align: center; color: rgb(57, 111, 159);margin-top: 20vh;"></h2>
