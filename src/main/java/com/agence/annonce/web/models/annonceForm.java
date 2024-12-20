@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.agence.annonce.dao.entities.Category;
-import com.agence.annonce.dao.entities.Photo;
+
 import com.agence.annonce.dao.entities.Type;
 
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,11 +34,11 @@ public class annonceForm {
     @NotNull(message="Please choose a category")
     private Category category;
 
-    @NotBlank(message="Description is required")
+    
     private String description;
 
     @NotNull
-   @Digits(integer = 8, fraction = 0, message = "Phone number must be exactly 8 digits")
+    @Digits(integer = 8, fraction = 0, message = "Phone number must be exactly 8 digits")
     private Integer tel;
 
     @NotNull

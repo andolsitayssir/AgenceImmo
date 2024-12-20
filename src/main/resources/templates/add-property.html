@@ -6,89 +6,84 @@
     <title>Add Property</title>
     <link th:replace="layout/default-layout::link">
 </head>
-<body  th:replace="layout/default-layout::body(title='Add Property')" >
-   <div  th:fragment="content">
-    <div class="row "style="margin-top: 20vh;">
+<body th:replace="layout/default-layout::body(title='Add Property')">
+   <div th:fragment="content">
+    <div class="row" style="margin-top: 20vh;">
       <div class="col-8">
-        <a class="btn btn-primary" th:href="@{/annonces/property-list}">Return to the List</a>
+        <a class="btn btn-primary" th:href="@{/annonces}">Return to the List</a>
       </div>
     </div>
     <form th:action="@{/annonces/create-property}" th:object="${annonceForm}" method="POST" enctype="multipart/form-data">
-     <h1 class="form-group   fw-bold mx-auto" style="text-align: center;">Add a New Property</h1>       
-    <div  class="form-group mx-auto   mt-3 w-50" >
-        <label class="form-label      fw-bold" for="title">Enter a title *</label>
-        <input type="text" class="form-control"      placeholder="Title" id="title"  th:classappend="${#fields.hasErrors('titre')}?is-invalid"  th:field="*{titre}">
-        <span th:if="${#fields.hasErrors('titre')}" th:errors="*{titre}" class="invalid-feedback">Age Error</span>
+     <h1 class="form-group fw-bold mx-auto" style="text-align: center;">Add a New Property</h1>       
+    <div class="form-group mx-auto mt-3 w-50">
+        <label class="form-label fw-bold" for="title">Enter a title *</label>
+        <input type="text" class="form-control" placeholder="Title" id="title" th:classappend="${#fields.hasErrors('titre')}?is-invalid" th:field="*{titre}">
+        <span th:if="${#fields.hasErrors('titre')}" th:errors="*{titre}" class="invalid-feedback">Title Error</span>
     </div>
-      <p class="form-group   fw-bold mx-auto mt-3 w-50">Select a Type *</p>
-      <div class="form-check form-group mx-auto mt-3 w-50">
-        <input class="form-check-input" type="radio" name="type" id="sale" value="sale" checked="" th:field="*{type}">
-        <label class="form-check-label" for="sale">
-            Sale
-        </label>
-      </div>
-        <div class="form-check form-group mx-auto mt-3 w-50">
-        <input class="form-check-input" type="radio" name="type" id="rental" value="rental" checked="" th:field="*{type}">
-        <label class="form-check-label" for="rental">
-            Rental
-        </label>
-      </div>
-
-   <div class=" form-group mx-auto mt-3 w-50">
-    <label for="type" class="form-label  fw-bold ">Select a Category *</label>
-    <select id="category" class="form-select " th:field="*{category}">
-          <option th:each="category : ${categories}" 
-                  th:value="${category}" 
-                  th:text="${category}"></option>
-      </select>
-  </div>
-  <div class=" form-group mx-auto mt-3 w-50">
-    <label for="description" class="form-label   fw-bold">More details *</label>
-    <textarea class="form-control "      id="description" rows="3" cols="1" th:field="*{description}" ></textarea>
-  </div>
-  <p class="form-group mx-auto mt-3 w-50  fw-bold">Enter your Phone Number *</p>
-  <div class="form-group input-group mt-3 mx-auto w-50">
-    <span class="input-group-text">+216</span>
-    <input type="number" class="form-control" th:classappend="${#fields.hasErrors('tel')}?is-invalid"  th:field="*{tel}">
-    <span th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}" class="invalid-feedback">phone number error</span> 
-  </div>
-  <p class="form-group mx-auto mt-3 w-50  fw-bold">Enter the Surface *</p>
-  <div class="form-group input-group mt-3 mx-auto w-50">
-    <span class="input-group-text">m²</span>
-    <input type="number" class="form-control" th:classappend="${#fields.hasErrors('surface')}?is-invalid"  th:field="*{surface}">
-    <span th:if="${#fields.hasErrors('surface')}" th:errors="*{surface}" class="invalid-feedback">surface error</span>
-  </div>
-      <p class="form-group mx-auto mt-3 w-50  fw-bold">Enter the Price *</p>
-      <div class="form-group input-group mt-3 mx-auto w-50">
+    <p class="form-group fw-bold mx-auto mt-3 w-50">Select a Type *</p>
+    <div class="form-check form-group mx-auto mt-3 w-50">
+        <input class="form-check-input" type="radio" name="type" id="sale" value="sale" th:field="*{type}">
+        <label class="form-check-label" for="sale">Sale</label>
+    </div>
+    <div class="form-check form-group mx-auto mt-3 w-50">
+        <input class="form-check-input" type="radio" name="type" id="rental" value="rental" th:field="*{type}">
+        <label class="form-check-label" for="rental">Rental</label>
+    </div>
+    <div class="form-group mx-auto mt-3 w-50">
+        <label for="type" class="form-label fw-bold">Select a Category *</label>
+        <select id="category" class="form-select" th:field="*{category}">
+            <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
+        </select>
+        <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="invalid-feedback">Category Error</span>
+    </div>
+    <div class="form-group mx-auto mt-3 w-50">
+        <label for="description" class="form-label fw-bold">More details *</label>
+        <textarea class="form-control" id="description" rows="3" cols="1" th:field="*{description}"></textarea>
+        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="invalid-feedback">Description Error</span>
+    </div>
+    <p class="form-group mx-auto mt-3 w-50 fw-bold">Enter your Phone Number *</p>
+    <div class="form-group input-group mt-3 mx-auto w-50">
+        <span class="input-group-text">+216</span>
+        <input type="number" class="form-control" th:classappend="${#fields.hasErrors('tel')}?is-invalid" th:field="*{tel}">
+        <span th:if="${#fields.hasErrors('tel')}" th:errors="*{tel}" class="invalid-feedback">Phone number error</span> 
+    </div>
+    <p class="form-group mx-auto mt-3 w-50 fw-bold">Enter the Surface *</p>
+    <div class="form-group input-group mt-3 mx-auto w-50">
+        <span class="input-group-text">m²</span>
+        <input type="number" class="form-control" th:classappend="${#fields.hasErrors('surface')}?is-invalid" th:field="*{surface}">
+        <span th:if="${#fields.hasErrors('surface')}" th:errors="*{surface}" class="invalid-feedback">Surface error</span>
+    </div>
+    <p class="form-group mx-auto mt-3 w-50 fw-bold">Enter the Price *</p>
+    <div class="form-group input-group mt-3 mx-auto w-50">
         <span class="input-group-text">TND</span>
-        <input type="number" class="form-control"  id="price"   aria-label="Amount (to the nearest dollar)" th:classappend="${#fields.hasErrors('price')}?is-invalid"  th:field="*{price}">
-        <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="invalid-feedback">price Error</span>
-      </div>
-      <div  class="form-group mx-auto   mt-3 w-50" >
+        <input type="number" class="form-control" id="price" aria-label="Amount (to the nearest dollar)" th:classappend="${#fields.hasErrors('price')}?is-invalid" th:field="*{price}">
+        <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="invalid-feedback">Price Error</span>
+    </div>
+    <div class="form-group mx-auto mt-3 w-50">
         <label class="form-label fw-bold" for="title">Governorate *</label>
-        <input type="text" class="form-control "    placeholder="Governorate" id="Governorate" th:classappend="${#fields.hasErrors('governorate')}?is-invalid"  th:field="*{governorate}">
-        <span th:if="${#fields.hasErrors('governorate')}" th:errors="*{governorate}" class="invalid-feedback">governorate Error</span>
+        <input type="text" class="form-control" placeholder="Governorate" id="Governorate" th:classappend="${#fields.hasErrors('governorate')}?is-invalid" th:field="*{governorate}">
+        <span th:if="${#fields.hasErrors('governorate')}" th:errors="*{governorate}" class="invalid-feedback">Governorate Error</span>
     </div>
-    <div  class="form-group mx-auto mt-3 w-50" >
-        <label class="form-label  fw-bold" for="title">City *</label>
-        <input type="text" class="form-control " 02 placeholder="City" id="city"th:classappend="${#fields.hasErrors('city')}?is-invalid"  th:field="*{city}">
-        <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="invalid-feedback">city Error</span>
+    <div class="form-group mx-auto mt-3 w-50">
+        <label class="form-label fw-bold" for="title">City *</label>
+        <input type="text" class="form-control" placeholder="City" id="city" th:classappend="${#fields.hasErrors('city')}?is-invalid" th:field="*{city}">
+        <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="invalid-feedback">City Error</span>
     </div>
-    <div  class="form-group mx-auto   mt-3 w-50" >
-        <label class="form-label  fw-bold" for="title">Street *</label>
-        <input type="text" class="form-control "  placeholder="Street" id="street" th:classappend="${#fields.hasErrors('street')}?is-invalid"  th:field="*{street}">
-        <span th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="invalid-feedback">street Error</span>
-      </div>
-    <div class="form-group mx-auto   mt-3 w-50">
-      <label for="formFile" class="form-label fw-bold">Upload Photos of your Property *</label>
-      <input class="form-control" type="file" name="photos"  id="formFile" th:field="*{photos}" multiple onchange="previewImages()">
+    <div class="form-group mx-auto mt-3 w-50">
+        <label class="form-label fw-bold" for="title">Street *</label>
+        <input type="text" class="form-control" placeholder="Street" id="street" th:classappend="${#fields.hasErrors('street')}?is-invalid" th:field="*{street}">
+        <span th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="invalid-feedback">Street Error</span>
+    </div>
+    <div class="form-group mx-auto mt-3 w-50">
+        <label for="formFile" class="form-label fw-bold">Upload Photos of your Property *</label>
+        <input class="form-control" type="file" name="photos" id="formFile" th:field="*{photos}" multiple onchange="previewImages()">
+        <span th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}" class="invalid-feedback">Photos Error</span>
     </div>
     <div class="form-group mx-auto mt-3 w-50" id="imagePreview"></div>
     <div class="form-group mx-auto mt-3 w-50">
-    <button type="submit" class="btn btn-primary">Submit</button>
-  </div>
-        </form>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    </form>
    </div>
-    
 </body>
 </html>

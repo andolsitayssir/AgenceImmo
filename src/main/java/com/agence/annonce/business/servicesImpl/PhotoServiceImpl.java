@@ -26,8 +26,8 @@ public class PhotoServiceImpl implements PhotoService  {
     }
 
     @Override
-    public Photo getPhotobyId(Long id) {
-        return this.photoRepository.findById(id).get();
+    public Photo getPhotoById(Long photoId) {
+        return photoRepository.findById(photoId).orElse(null);
     }
 
 
@@ -44,8 +44,18 @@ public class PhotoServiceImpl implements PhotoService  {
     }
     
     @Override
+    @Transactional
     public void deletePhotoById(Long photoId) {
         this.photoRepository.deleteById(photoId);
     }
+
+
+
+
+
+
+
+
+
 
 }

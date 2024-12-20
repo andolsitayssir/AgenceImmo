@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,7 +57,7 @@ public class AnnonceController  {
         this.photoService=photoService;
     }
        
-    @RequestMapping("/property-list")
+    @RequestMapping("")
     public String getAllproduct(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "4") int pageSize,
                                 Model model) {
@@ -108,7 +109,7 @@ public class AnnonceController  {
 
            Annonce annonce =new Annonce(null, annonceForm.getTitre(), annonceForm.getDescription(), annonceForm.getSurface(), annonceForm.getPrice(), annonceForm.getType(), annonceForm.getCategory(), address, annonceForm.getTel(), null);
                 for (MultipartFile photo : photos) {
-                    if (!photo.isEmpty()) { // Check if the photo is not empty
+                    if (!photo.isEmpty()) { 
                         StringBuilder fileName = new StringBuilder();
                         fileName.append(photo.getOriginalFilename());
                         Path newFilePath = Paths.get(uploadDirectory, fileName.toString());
@@ -123,33 +124,37 @@ public class AnnonceController  {
                 if (!photosList.isEmpty()) {
                     annonce.setPhotos(photosList);
                 }
-            this.annonceService.addAnnonce(annonce); // Save the annonce, which will also save the photos due to cascade
-            return "redirect:/annonces/property-list";
+
+            this.annonceService.addAnnonce(annonce);
+            return "redirect:/annonces";
     }
+
     public MultipartFile convertPhotoToMultipartFile(Photo photo) throws IOException {
-        // Check if the url points to a file on disk
+        
         File file = new File(photo.getUrl());
     
-        // If file exists and is not a directory
+        
         if (file.exists() && file.isFile()) {
-            // Read the file content
+            
             FileInputStream fileInputStream = new FileInputStream(file);
             byte[] data = fileInputStream.readAllBytes();
             fileInputStream.close();
     
-            // Create the MultipartFile from the file data
+          
             return new MockMultipartFile(
-                "file",                           // Form field name
-                file.getName(),                    // Original file name
-                "image/jpeg",                      // Content type (adjust if necessary)
-                data                               // File content as byte array
+                "file",                          
+                file.getName(),                    
+                "image/jpeg",                      
+                data                               
             );
         } else {
-            // Handle the case where the file doesn't exist or the URL is not a valid file
+            
             throw new IOException("File not found at URL: " + photo.getUrl());
         }
     }
- 
+    
+    
+    
     @RequestMapping("{id}/edit-property")
     public String showEditProperty(@PathVariable Long id,Model model) {
         Annonce annonce = this.annonceService.getAnnoncebyId(id);
@@ -215,9 +220,28 @@ public class AnnonceController  {
     addresseService.updateAddress(address);
     annonceService.updateAnnonce(annonce);
 
-    return "redirect:/annonces/property-list";
+    return "redirect:/annonces";
 }
 
+  @PostMapping("/photos/{photoId}/delete")
+  public String deletePhoto(@PathVariable Long photoId, Model model) {
+    Photo photo = photoService.getPhotoById(photoId);
+        Annonce annonce = photo.getAnnonce();
+        Long annonceId = annonce.getAnnonce_id();
+        annonce.getPhotos().remove(photo);
+        annonceService.updateAnnonce(annonce);
+        Path filePath = Paths.get(uploadDirectory, photo.getUrl());
+            try {
+                Files.deleteIfExists(filePath);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            photoService.deletePhotoById(photoId);
+            model.addAttribute("annonceId", annonceId);
+
+            return "redirect:/annonces/" + annonceId + "/edit-property";
+        }
+    
 
     @RequestMapping(path = "{id}/delete-property", method = RequestMethod.POST)
     public String deleteAnnonce(@PathVariable Long id) {
@@ -237,9 +261,10 @@ public class AnnonceController  {
               this.photoService.deletePhotoByAnnonce(annonce);
         }     
         }
-        return "redirect:/annonces/property-list";
+        return "redirect:/annonces";
       
     }
+  
 }
 
     

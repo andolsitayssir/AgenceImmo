@@ -42,11 +42,33 @@
 </head>
 <body th:action="@{/properties/property-details}" th:replace="layout/layout-home::body(title='property details')">
     <div th:fragment="content">
-      <div>
-        <h2 class="fw-bold " th:text="${annonce.titre}" style="text-align: center; color: rgb(57, 111, 159);margin-top: 20vh;"></h2>
-        <div class="row">
       
-        <div id="carouselExampleIndicators" class="carousel  slide col-8 mt-4 " data-ride="carousel">
+        <div class="col-8">
+            <a class="btn btn-primary" th:href="@{/properties}" style="margin-top: 20vh;">Return to the List</a>
+          </div>
+        <h2 class="fw-bold " th:text="${annonce.titre}" style="text-align: center; color: rgb(57, 111, 159);"></h2>
+     <div class="row">
+    
+        <div class="property-details col mt-4">
+     
+            <h3 class="fw-bold">Category:</h3><h4 th:text=${annonce.category}></h4>
+            <h3 class="fw-bold">Type:</h3><h4 th:text="${annonce.type}"></h4>
+            <h3 class="fw-bold">Details:</h3><h4 th:text="${annonce.description}"></h4>
+            <h3 class="fw-bold">Surface:</h3><h4 th:text="${annonce.surface}"></h4>
+            <h3 class="fw-bold">Price:</h3><h4 th:text="${annonce.price}"></h4>    
+     
+        </div>
+        <div class="col mt-4">
+            <h3 class="fw-bold">Phone Number:</h3><h4 th:text="${annonce.tel}"></h4>
+            <h3 class="fw-bold">Governorate:</h3><h4 th:text="${annonce.address.governorate}"></h4>
+            <h3 class="fw-bold">City</h3><h4 th:text="${annonce.address.city}"></h4>
+            <h3 class="fw-bold">Street</h3><h4 th:text="${annonce.address.street}"></h4>
+        </div>
+        <div th:if="${#lists.isEmpty(photos)}" class="col-1 mt-4 ml-5">
+            <img th:src="@{'/images/no-image.jpg'}"  style="width: 400px<; ">
+        </div>
+      
+     <div id="carouselExampleIndicators" class="carousel  slide col-8 mt-4 " data-ride="carousel">
    
             <div class="carousel-inner">
                 <div th:each="photo, iterStat : ${photos}" 
@@ -65,22 +87,8 @@
         </div>
 
        
-        <div class="property-details col mt-4">
-     
-            <h3 class="fw-bold">Category:</h3><h4 th:text=${annonce.category}></h4>
-            <h3 class="fw-bold">Type:</h3><h4 th:text="${annonce.type}"></h4>
-            <h3 class="fw-bold">Details:</h3><h4 th:text="${annonce.description}"></h4>
-            <h3 class="fw-bold">Surface:</h3><h4 th:text="${annonce.surface}"></h4>
-            <h3 class="fw-bold">Price:</h3><h4 th:text="${annonce.price}"></h4>    
-     
-        </div>
-        <div class="col mt-4">
-            <h3 class="fw-bold">Phone Number:</h3><h4 th:text="${annonce.tel}"></h4>
-            <h3 class="fw-bold">Governorate:</h3><h4 th:text="${annonce.address.governorate}"></h4>
-            <h3 class="fw-bold">City</h3><h4 th:text="${annonce.address.city}"></h4>
-            <h3 class="fw-bold">Street</h3><h4 th:text="${annonce.address.street}"></h4>
-        </div>
+       </div>
     </div>
-      </div>
+      
 </body>
 </html>

@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgenceImmo</title>
     <link th:replace="layout/layout-home::link">
-   
+   <style>
+        .card {
+      border:none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+   </style>
     <body th:action="@{/properties}" th:replace="layout/layout-home::body(title='Landing Page')">
       <div th:fragment="content">
         <form th:action="@{/properties/filter}" method="get" class="form-inline row "style="margin-top:20vh" >
@@ -35,7 +40,7 @@
     <div class="row mt-3">
       <div class="col-md-4 mb-3" th:each="property,state : ${annonces}">
         <div class="card border-dark h-100">
-          <div class="card-header text-black " style="background-color: rgb(43, 79, 116,0.8); text-align: center;" th:text="${property.category}"></div>
+          <div class="card-header text-black fw-bold " style=" text-align: center;" th:text="${property.category}"></div>
           <div class="card-body h-50">
             <div class="card-img-top mx-2" style="width: 90%; height: 50%; overflow: hidden;">
               <img th:src="(${property.photos != null and property.photos.size() > 0} ? @{|/images/${property.photos[0].url}|} : @{'/images/no-image.jpg'})"

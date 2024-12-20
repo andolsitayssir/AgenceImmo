@@ -6,16 +6,29 @@
     <title>Edit Property</title>
     <link th:replace="layout/default-layout::link">
 </head>
-<body th:replace="layout/default-layout::body(title='Edit Property')" >
+<body th:replace="layout/default-layout::body(title='Edit Property')">
    <div th:fragment="content">
-    <div class="row " style="margin-top: 20vh;">
+    <div class="row" style="margin-top: 20vh;">
       <div class="col-8">
-        <a class="btn btn-primary" th:href="@{/annonces/property-list}">Return to the List</a>
+        <a class="btn btn-primary" th:href="@{/annonces}">Return to the List</a>
+      </div>
+    </div>
+    <h1 class="form-group fw-bold" style="text-align: center;">Update Property</h1>
+    
+    <div class="form-group mx-auto mt-3 w-50">
+      <h6 class="fw-bold">Current Photos</h6>
+      <div th:if="${#lists.isEmpty(photos)}">
+        <p>No photos available.</p>
+      </div>
+      <div class="row">
+        <div class="col-md-4 mb-3" th:each="photo : ${photos}">
+          <img th:src="@{|/images/${photo.url}|}" alt="Photo" class="img-fluid" style="width: 100%; height: 200px; object-fit: cover;">
+         <form th:action="@{|/annonces/photos/${photo.photo_id}/delete|}" method="post"> <button class="btn btn-danger mt-2 mx-auto">Delete Photo</button></form>
+        </div>
       </div>
     </div>
     <form th:action="@{|/annonces/${annonce_id}/edit-property|}" th:object="${annonceForm}" method="POST" enctype="multipart/form-data">
-      <h1 class="form-group fw-bold" style="text-align: center;">Update Property</h1>
-      <div class="form-group mx-auto mt-3 w-50">
+       <div class="form-group mx-auto mt-3 w-50">
         <label class="form-label fw-bold" for="title">Title</label>
         <input type="text" class="form-control" placeholder="Title" id="titre" th:classappend="${#fields.hasErrors('titre')}?is-invalid" th:field="*{titre}">
         <span th:if="${#fields.hasErrors('titre')}" th:errors="*{titre}" class="invalid-feedback">Title Error</span>
@@ -34,6 +47,7 @@
         <select id="category" class="form-select" th:field="*{category}">
           <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
         </select>
+        <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="invalid-feedback">Category Error</span>
       </div>
       <div class="form-group mx-auto mt-3 w-50">
         <label for="description" class="form-label fw-bold">Details</label>
@@ -73,21 +87,11 @@
         <input type="text" class="form-control" placeholder="Street" id="street" th:classappend="${#fields.hasErrors('street')}?is-invalid" th:field="*{street}">
         <span th:if="${#fields.hasErrors('street')}" th:errors="*{street}" class="invalid-feedback">Street Error</span>
       </div>
-      <div class="form-group mx-auto mt-3 w-50">
-        <h6 class="fw-bold" > Current Photos</h6>
-        <div th:if="${#lists.isEmpty(photos)}">
-          <p>No photos available.</p>
-        </div>
-          <div class="row">
-              <div class="col-md-4 mb-3" th:each="photo : ${photos}">
-                  <img th:src="@{|/images/${photo.url}|}" alt="Photo" class="img-fluid" style="width: 100%; height: 200px; object-fit: cover;">
-              </div>
-          
-      </div>
-      
+
       <div class="form-group mx-auto mt-3 w-50">
         <label for="formFile" class="form-label fw-bold">Upload more Photos</label>
         <input class="form-control" type="file" name="photos" id="formFile" th:field="*{photos}" multiple onchange="previewImages()">
+        <span th:if="${#fields.hasErrors('photos')}" th:errors="*{photos}" class="invalid-feedback">Photos Error</span>
       </div>
       <div class="form-group mx-auto mt-3 w-50" id="imagePreview"></div>
       <div class="form-group mx-auto mt-3 w-50">
